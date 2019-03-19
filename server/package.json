@@ -1,0 +1,23 @@
+{
+  "name": "todo-together",
+  "version": "1.0.0",
+  "description": "A ToDo Application Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -e js,graphql -x node src/index.js",
+    "dev": "nodemon -e js,graphql -x node --inspect src/index.js",
+    "deploy:db": "prisma deploy --env-file variables.env"
+  },
+  "author": "Nghi Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-errors": "^1.9.0",
+    "bcryptjs": "^2.4.3",
+    "graphql-cli": "^3.0.11",
+    "graphql-yoga": "^1.17.4",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^1.18.10",
+    "prisma-client-lib": "^1.28.5"
+  }
+}
