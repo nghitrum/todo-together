@@ -4,6 +4,8 @@ import './Main.css';
 
 class Main extends Component {
   render() {
+    // console.log(this.props.auth.isAuthenticated());
+    // console.log(this.props.auth.getIdToken())
     return (
       <Segment className="main-content">
         <div className="ui cards">

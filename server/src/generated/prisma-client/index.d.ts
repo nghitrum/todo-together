@@ -106,8 +106,16 @@ export interface ClientConstructor<T> {
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
+  | "identity_ASC"
+  | "identity_DESC"
+  | "auth0id_ASC"
+  | "auth0id_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -134,6 +142,20 @@ export interface UserWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -148,21 +170,75 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  avatar?: String;
+  avatar_not?: String;
+  avatar_in?: String[] | String;
+  avatar_not_in?: String[] | String;
+  avatar_lt?: String;
+  avatar_lte?: String;
+  avatar_gt?: String;
+  avatar_gte?: String;
+  avatar_contains?: String;
+  avatar_not_contains?: String;
+  avatar_starts_with?: String;
+  avatar_not_starts_with?: String;
+  avatar_ends_with?: String;
+  avatar_not_ends_with?: String;
+  identity?: String;
+  identity_not?: String;
+  identity_in?: String[] | String;
+  identity_not_in?: String[] | String;
+  identity_lt?: String;
+  identity_lte?: String;
+  identity_gt?: String;
+  identity_gte?: String;
+  identity_contains?: String;
+  identity_not_contains?: String;
+  identity_starts_with?: String;
+  identity_not_starts_with?: String;
+  identity_ends_with?: String;
+  identity_not_ends_with?: String;
+  auth0id?: String;
+  auth0id_not?: String;
+  auth0id_in?: String[] | String;
+  auth0id_not_in?: String[] | String;
+  auth0id_lt?: String;
+  auth0id_lte?: String;
+  auth0id_gt?: String;
+  auth0id_gte?: String;
+  auth0id_contains?: String;
+  auth0id_not_contains?: String;
+  auth0id_starts_with?: String;
+  auth0id_not_starts_with?: String;
+  auth0id_ends_with?: String;
+  auth0id_not_ends_with?: String;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
 export interface UserCreateInput {
-  name: String;
+  email?: String;
+  name?: String;
+  avatar?: String;
+  identity?: String;
+  auth0id?: String;
 }
 
 export interface UserUpdateInput {
+  email?: String;
   name?: String;
+  avatar?: String;
+  identity?: String;
+  auth0id?: String;
 }
 
 export interface UserUpdateManyMutationInput {
+  email?: String;
   name?: String;
+  avatar?: String;
+  identity?: String;
+  auth0id?: String;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -182,19 +258,31 @@ export interface NodeNode {
 
 export interface User {
   id: ID_Output;
-  name: String;
+  email?: String;
+  name?: String;
+  avatar?: String;
+  identity?: String;
+  auth0id?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  identity: () => Promise<String>;
+  auth0id: () => Promise<String>;
 }
 
 export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  identity: () => Promise<AsyncIterator<String>>;
+  auth0id: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {
@@ -317,21 +405,33 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
-  name: String;
+  email?: String;
+  name?: String;
+  avatar?: String;
+  identity?: String;
+  auth0id?: String;
 }
 
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  identity: () => Promise<String>;
+  auth0id: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  identity: () => Promise<AsyncIterator<String>>;
+  auth0id: () => Promise<AsyncIterator<String>>;
 }
 
 /*

@@ -6,4 +6,5 @@ type Query {
 
 type Mutation {
   hi: String
+  authenticate(idToken: String!): Boolean
 }

@@ -1,4 +1,9 @@
+
 type User {
   id: ID! @unique
-  name: String!
+  email: String @isOwner(type: "User")
+  name: String
+  avatar: String
+  identity: String
+  auth0id: String
 }
