@@ -1,4 +1,4 @@
-require('dotenv').config({ path: 'variables.env' });
+require('dotenv').config();
 const { prisma } = require('./generated/prisma-client');
 const { ApolloServer } = require('apollo-server-express');
 const { importSchema } = require('graphql-import');
@@ -8,6 +8,10 @@ const Mutation = require('./resolvers/Mutation');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+const jwksClient = require('jwks-rsa');
+
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -21,47 +25,55 @@ const resolvers = {
 
 const typeDefs = importSchema(path.resolve('src/schema.graphql'));
 
+const client = jwksClient({
+  jwksUri: `https://nghitrum.eu.auth0.com/.well-known/jwks.json`
+});
+
+function getKey(header, cb){
+  client.getSigningKey(header.kid, function(err, key) {
+    var signingKey = key.publicKey || key.rsaPublicKey;
+    //console.log(signingKey);
+    cb(null, signingKey);
+  });
+}
+
+const options = {
+  aud: 'http://localhost:4000/',
+  issuer: `https://nghitrum.eu.auth0.com/`,
+  algorithms: ['RS256']
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: req => ({
-    ...req,
-    db: prisma
-  }),
+  context: async ({req}) => {
+    let user;
+    if (req.headers.authorization) {
+      const token = req.headers.authorization;
+      user = await new Promise((resolve, reject) => {
+        jwt.verify(token, getKey, options, (err, decoded) => {
+          if(err) {
+            return reject(err);
+          }   
+          resolve(decoded);
+        });
+      });
+    }
+    console.log(user);
+
+    return {
+      ...req,
+      db: prisma,
+      user
+    }
+  },
   cors: cors(corsOptions)
 });
 
 const app = express();
-var jwt = require('express-jwt');
-var jwks = require('jwks-rsa');
 
-// Authentication middleware. When used, the
-// Access Token must exist and be verified against
-// the Auth0 JSON Web Key Set
-var jwtCheck = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: 'https://nghitrum.eu.auth0.com/.well-known/jwks.json'
-  }),
-  aud: 'http://localhost:4000/',
-  issuer: 'https://nghitrum.eu.auth0.com/',
-  algorithms: ['RS256']
-});
-
-//app.use(jwtCheck);
-
+app.use(cors());
 app.use(cookieParser());
-
-// decode the JWT so we can get the user Id on each request
-app.use((req, res, next) => {
-  console.log(req.headers);
-
-  next();
-});
-
-// 2. Create a middleware that populates the user on each request
 
 server.applyMiddleware({ app, path: '/' });
 

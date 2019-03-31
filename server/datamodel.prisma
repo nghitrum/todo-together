@@ -1,9 +1,23 @@
 
 type User {
   id: ID! @unique
-  email: String @isOwner(type: "User")
+  auth0id: String @unique
+}
+
+type ToDo {
+  id: ID! @unique
+  title: String
+  description: String
+  isDone: Boolean
+}
+
+type Label {
+  id: ID! @unique
   name: String
-  avatar: String
-  identity: String
-  auth0id: String
+}
+
+type Color {
+  id: ID! @unique
+  name: String
+  colorCode: String
 }

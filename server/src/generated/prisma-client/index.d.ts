@@ -14,6 +14,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  color: (where?: ColorWhereInput) => Promise<boolean>;
+  label: (where?: LabelWhereInput) => Promise<boolean>;
+  toDo: (where?: ToDoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -36,6 +39,75 @@ export interface Prisma {
    * Queries
    */
 
+  color: (where: ColorWhereUniqueInput) => ColorPromise;
+  colors: (
+    args?: {
+      where?: ColorWhereInput;
+      orderBy?: ColorOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Color>;
+  colorsConnection: (
+    args?: {
+      where?: ColorWhereInput;
+      orderBy?: ColorOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ColorConnectionPromise;
+  label: (where: LabelWhereUniqueInput) => LabelPromise;
+  labels: (
+    args?: {
+      where?: LabelWhereInput;
+      orderBy?: LabelOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Label>;
+  labelsConnection: (
+    args?: {
+      where?: LabelWhereInput;
+      orderBy?: LabelOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => LabelConnectionPromise;
+  toDo: (where: ToDoWhereUniqueInput) => ToDoPromise;
+  toDoes: (
+    args?: {
+      where?: ToDoWhereInput;
+      orderBy?: ToDoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<ToDo>;
+  toDoesConnection: (
+    args?: {
+      where?: ToDoWhereInput;
+      orderBy?: ToDoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ToDoConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (
     args?: {
@@ -65,6 +137,54 @@ export interface Prisma {
    * Mutations
    */
 
+  createColor: (data: ColorCreateInput) => ColorPromise;
+  updateColor: (
+    args: { data: ColorUpdateInput; where: ColorWhereUniqueInput }
+  ) => ColorPromise;
+  updateManyColors: (
+    args: { data: ColorUpdateManyMutationInput; where?: ColorWhereInput }
+  ) => BatchPayloadPromise;
+  upsertColor: (
+    args: {
+      where: ColorWhereUniqueInput;
+      create: ColorCreateInput;
+      update: ColorUpdateInput;
+    }
+  ) => ColorPromise;
+  deleteColor: (where: ColorWhereUniqueInput) => ColorPromise;
+  deleteManyColors: (where?: ColorWhereInput) => BatchPayloadPromise;
+  createLabel: (data: LabelCreateInput) => LabelPromise;
+  updateLabel: (
+    args: { data: LabelUpdateInput; where: LabelWhereUniqueInput }
+  ) => LabelPromise;
+  updateManyLabels: (
+    args: { data: LabelUpdateManyMutationInput; where?: LabelWhereInput }
+  ) => BatchPayloadPromise;
+  upsertLabel: (
+    args: {
+      where: LabelWhereUniqueInput;
+      create: LabelCreateInput;
+      update: LabelUpdateInput;
+    }
+  ) => LabelPromise;
+  deleteLabel: (where: LabelWhereUniqueInput) => LabelPromise;
+  deleteManyLabels: (where?: LabelWhereInput) => BatchPayloadPromise;
+  createToDo: (data: ToDoCreateInput) => ToDoPromise;
+  updateToDo: (
+    args: { data: ToDoUpdateInput; where: ToDoWhereUniqueInput }
+  ) => ToDoPromise;
+  updateManyToDoes: (
+    args: { data: ToDoUpdateManyMutationInput; where?: ToDoWhereInput }
+  ) => BatchPayloadPromise;
+  upsertToDo: (
+    args: {
+      where: ToDoWhereUniqueInput;
+      create: ToDoCreateInput;
+      update: ToDoUpdateInput;
+    }
+  ) => ToDoPromise;
+  deleteToDo: (where: ToDoWhereUniqueInput) => ToDoPromise;
+  deleteManyToDoes: (where?: ToDoWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (
     args: { data: UserUpdateInput; where: UserWhereUniqueInput }
@@ -90,6 +210,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  color: (
+    where?: ColorSubscriptionWhereInput
+  ) => ColorSubscriptionPayloadSubscription;
+  label: (
+    where?: LabelSubscriptionWhereInput
+  ) => LabelSubscriptionPayloadSubscription;
+  toDo: (
+    where?: ToDoSubscriptionWhereInput
+  ) => ToDoSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -103,17 +232,45 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type ColorOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "colorCode_ASC"
+  | "colorCode_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type LabelOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type ToDoOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "isDone_ASC"
+  | "isDone_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "avatar_ASC"
-  | "avatar_DESC"
-  | "identity_ASC"
-  | "identity_DESC"
   | "auth0id_ASC"
   | "auth0id_DESC"
   | "createdAt_ASC"
@@ -123,8 +280,153 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
+export type ColorWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface ColorWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  colorCode?: String;
+  colorCode_not?: String;
+  colorCode_in?: String[] | String;
+  colorCode_not_in?: String[] | String;
+  colorCode_lt?: String;
+  colorCode_lte?: String;
+  colorCode_gt?: String;
+  colorCode_gte?: String;
+  colorCode_contains?: String;
+  colorCode_not_contains?: String;
+  colorCode_starts_with?: String;
+  colorCode_not_starts_with?: String;
+  colorCode_ends_with?: String;
+  colorCode_not_ends_with?: String;
+  AND?: ColorWhereInput[] | ColorWhereInput;
+  OR?: ColorWhereInput[] | ColorWhereInput;
+  NOT?: ColorWhereInput[] | ColorWhereInput;
+}
+
+export type LabelWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface LabelWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: LabelWhereInput[] | LabelWhereInput;
+  OR?: LabelWhereInput[] | LabelWhereInput;
+  NOT?: LabelWhereInput[] | LabelWhereInput;
+}
+
+export type ToDoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface ToDoWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  isDone?: Boolean;
+  isDone_not?: Boolean;
+  AND?: ToDoWhereInput[] | ToDoWhereInput;
+  OR?: ToDoWhereInput[] | ToDoWhereInput;
+  NOT?: ToDoWhereInput[] | ToDoWhereInput;
+}
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  auth0id?: String;
 }>;
 
 export interface UserWhereInput {
@@ -142,62 +444,6 @@ export interface UserWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  avatar?: String;
-  avatar_not?: String;
-  avatar_in?: String[] | String;
-  avatar_not_in?: String[] | String;
-  avatar_lt?: String;
-  avatar_lte?: String;
-  avatar_gt?: String;
-  avatar_gte?: String;
-  avatar_contains?: String;
-  avatar_not_contains?: String;
-  avatar_starts_with?: String;
-  avatar_not_starts_with?: String;
-  avatar_ends_with?: String;
-  avatar_not_ends_with?: String;
-  identity?: String;
-  identity_not?: String;
-  identity_in?: String[] | String;
-  identity_not_in?: String[] | String;
-  identity_lt?: String;
-  identity_lte?: String;
-  identity_gt?: String;
-  identity_gte?: String;
-  identity_contains?: String;
-  identity_not_contains?: String;
-  identity_starts_with?: String;
-  identity_not_starts_with?: String;
-  identity_ends_with?: String;
-  identity_not_ends_with?: String;
   auth0id?: String;
   auth0id_not?: String;
   auth0id_in?: String[] | String;
@@ -217,28 +463,94 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface UserCreateInput {
-  email?: String;
+export interface ColorCreateInput {
   name?: String;
-  avatar?: String;
-  identity?: String;
+  colorCode?: String;
+}
+
+export interface ColorUpdateInput {
+  name?: String;
+  colorCode?: String;
+}
+
+export interface ColorUpdateManyMutationInput {
+  name?: String;
+  colorCode?: String;
+}
+
+export interface LabelCreateInput {
+  name?: String;
+}
+
+export interface LabelUpdateInput {
+  name?: String;
+}
+
+export interface LabelUpdateManyMutationInput {
+  name?: String;
+}
+
+export interface ToDoCreateInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface ToDoUpdateInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface ToDoUpdateManyMutationInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface UserCreateInput {
   auth0id?: String;
 }
 
 export interface UserUpdateInput {
-  email?: String;
-  name?: String;
-  avatar?: String;
-  identity?: String;
   auth0id?: String;
 }
 
 export interface UserUpdateManyMutationInput {
-  email?: String;
-  name?: String;
-  avatar?: String;
-  identity?: String;
   auth0id?: String;
+}
+
+export interface ColorSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ColorWhereInput;
+  AND?: ColorSubscriptionWhereInput[] | ColorSubscriptionWhereInput;
+  OR?: ColorSubscriptionWhereInput[] | ColorSubscriptionWhereInput;
+  NOT?: ColorSubscriptionWhereInput[] | ColorSubscriptionWhereInput;
+}
+
+export interface LabelSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: LabelWhereInput;
+  AND?: LabelSubscriptionWhereInput[] | LabelSubscriptionWhereInput;
+  OR?: LabelSubscriptionWhereInput[] | LabelSubscriptionWhereInput;
+  NOT?: LabelSubscriptionWhereInput[] | LabelSubscriptionWhereInput;
+}
+
+export interface ToDoSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ToDoWhereInput;
+  AND?: ToDoSubscriptionWhereInput[] | ToDoSubscriptionWhereInput;
+  OR?: ToDoSubscriptionWhereInput[] | ToDoSubscriptionWhereInput;
+  NOT?: ToDoSubscriptionWhereInput[] | ToDoSubscriptionWhereInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -256,54 +568,45 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface User {
+export interface Color {
   id: ID_Output;
-  email?: String;
   name?: String;
-  avatar?: String;
-  identity?: String;
-  auth0id?: String;
+  colorCode?: String;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface ColorPromise extends Promise<Color>, Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
   name: () => Promise<String>;
-  avatar: () => Promise<String>;
-  identity: () => Promise<String>;
-  auth0id: () => Promise<String>;
+  colorCode: () => Promise<String>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface ColorSubscription
+  extends Promise<AsyncIterator<Color>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
-  identity: () => Promise<AsyncIterator<String>>;
-  auth0id: () => Promise<AsyncIterator<String>>;
+  colorCode: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserConnection {
+export interface ColorConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: ColorEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface ColorConnectionPromise
+  extends Promise<ColorConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<ColorEdge>>() => T;
+  aggregate: <T = AggregateColorPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface ColorConnectionSubscription
+  extends Promise<AsyncIterator<ColorConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ColorEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateColorSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -327,6 +630,225 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ColorEdge {
+  node: Color;
+  cursor: String;
+}
+
+export interface ColorEdgePromise extends Promise<ColorEdge>, Fragmentable {
+  node: <T = ColorPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ColorEdgeSubscription
+  extends Promise<AsyncIterator<ColorEdge>>,
+    Fragmentable {
+  node: <T = ColorSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateColor {
+  count: Int;
+}
+
+export interface AggregateColorPromise
+  extends Promise<AggregateColor>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateColorSubscription
+  extends Promise<AsyncIterator<AggregateColor>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Label {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface LabelPromise extends Promise<Label>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface LabelSubscription
+  extends Promise<AsyncIterator<Label>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LabelConnection {
+  pageInfo: PageInfo;
+  edges: LabelEdge[];
+}
+
+export interface LabelConnectionPromise
+  extends Promise<LabelConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LabelEdge>>() => T;
+  aggregate: <T = AggregateLabelPromise>() => T;
+}
+
+export interface LabelConnectionSubscription
+  extends Promise<AsyncIterator<LabelConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LabelEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLabelSubscription>() => T;
+}
+
+export interface LabelEdge {
+  node: Label;
+  cursor: String;
+}
+
+export interface LabelEdgePromise extends Promise<LabelEdge>, Fragmentable {
+  node: <T = LabelPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LabelEdgeSubscription
+  extends Promise<AsyncIterator<LabelEdge>>,
+    Fragmentable {
+  node: <T = LabelSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateLabel {
+  count: Int;
+}
+
+export interface AggregateLabelPromise
+  extends Promise<AggregateLabel>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLabelSubscription
+  extends Promise<AsyncIterator<AggregateLabel>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ToDo {
+  id: ID_Output;
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface ToDoPromise extends Promise<ToDo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  isDone: () => Promise<Boolean>;
+}
+
+export interface ToDoSubscription
+  extends Promise<AsyncIterator<ToDo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  isDone: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface ToDoConnection {
+  pageInfo: PageInfo;
+  edges: ToDoEdge[];
+}
+
+export interface ToDoConnectionPromise
+  extends Promise<ToDoConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ToDoEdge>>() => T;
+  aggregate: <T = AggregateToDoPromise>() => T;
+}
+
+export interface ToDoConnectionSubscription
+  extends Promise<AsyncIterator<ToDoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ToDoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateToDoSubscription>() => T;
+}
+
+export interface ToDoEdge {
+  node: ToDo;
+  cursor: String;
+}
+
+export interface ToDoEdgePromise extends Promise<ToDoEdge>, Fragmentable {
+  node: <T = ToDoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ToDoEdgeSubscription
+  extends Promise<AsyncIterator<ToDoEdge>>,
+    Fragmentable {
+  node: <T = ToDoSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateToDo {
+  count: Int;
+}
+
+export interface AggregateToDoPromise
+  extends Promise<AggregateToDo>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateToDoSubscription
+  extends Promise<AsyncIterator<AggregateToDo>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface User {
+  id: ID_Output;
+  auth0id?: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  auth0id: () => Promise<String>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  auth0id: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -378,6 +900,147 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface ColorSubscriptionPayload {
+  mutation: MutationType;
+  node: Color;
+  updatedFields: String[];
+  previousValues: ColorPreviousValues;
+}
+
+export interface ColorSubscriptionPayloadPromise
+  extends Promise<ColorSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ColorPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ColorPreviousValuesPromise>() => T;
+}
+
+export interface ColorSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ColorSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ColorSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ColorPreviousValuesSubscription>() => T;
+}
+
+export interface ColorPreviousValues {
+  id: ID_Output;
+  name?: String;
+  colorCode?: String;
+}
+
+export interface ColorPreviousValuesPromise
+  extends Promise<ColorPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  colorCode: () => Promise<String>;
+}
+
+export interface ColorPreviousValuesSubscription
+  extends Promise<AsyncIterator<ColorPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  colorCode: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LabelSubscriptionPayload {
+  mutation: MutationType;
+  node: Label;
+  updatedFields: String[];
+  previousValues: LabelPreviousValues;
+}
+
+export interface LabelSubscriptionPayloadPromise
+  extends Promise<LabelSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LabelPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LabelPreviousValuesPromise>() => T;
+}
+
+export interface LabelSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LabelSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LabelSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LabelPreviousValuesSubscription>() => T;
+}
+
+export interface LabelPreviousValues {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface LabelPreviousValuesPromise
+  extends Promise<LabelPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface LabelPreviousValuesSubscription
+  extends Promise<AsyncIterator<LabelPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ToDoSubscriptionPayload {
+  mutation: MutationType;
+  node: ToDo;
+  updatedFields: String[];
+  previousValues: ToDoPreviousValues;
+}
+
+export interface ToDoSubscriptionPayloadPromise
+  extends Promise<ToDoSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ToDoPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ToDoPreviousValuesPromise>() => T;
+}
+
+export interface ToDoSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ToDoSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ToDoSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ToDoPreviousValuesSubscription>() => T;
+}
+
+export interface ToDoPreviousValues {
+  id: ID_Output;
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface ToDoPreviousValuesPromise
+  extends Promise<ToDoPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  isDone: () => Promise<Boolean>;
+}
+
+export interface ToDoPreviousValuesSubscription
+  extends Promise<AsyncIterator<ToDoPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  isDone: () => Promise<AsyncIterator<Boolean>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -405,10 +1068,6 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
-  email?: String;
-  name?: String;
-  avatar?: String;
-  identity?: String;
   auth0id?: String;
 }
 
@@ -416,10 +1075,6 @@ export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  name: () => Promise<String>;
-  avatar: () => Promise<String>;
-  identity: () => Promise<String>;
   auth0id: () => Promise<String>;
 }
 
@@ -427,10 +1082,6 @@ export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
-  identity: () => Promise<AsyncIterator<String>>;
   auth0id: () => Promise<AsyncIterator<String>>;
 }
 
@@ -464,6 +1115,18 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "ToDo",
+    embedded: false
+  },
+  {
+    name: "Label",
+    embedded: false
+  },
+  {
+    name: "Color",
     embedded: false
   }
 ];
