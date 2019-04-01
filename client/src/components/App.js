@@ -20,10 +20,6 @@ class App extends Component {
     });
     const idToken = this.props.auth.getIdToken();
     const authLink = setContext((_, { headers }) => {
-      // get the authentication token from local storage if it exists
-      
-      // console.log(idToken);
-      // return the headers to the context so httpLink can read them
       return {
         headers: {
           ...headers,

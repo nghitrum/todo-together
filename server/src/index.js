@@ -59,8 +59,7 @@ const server = new ApolloServer({
         });
       });
     }
-    console.log(user);
-
+  
     return {
       ...req,
       db: prisma,

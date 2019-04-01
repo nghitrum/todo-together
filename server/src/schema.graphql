@@ -2,9 +2,22 @@
 
 type Query {
   hi: String
+
+  # todos
+  readAllToDoes: [ToDo!]!
+  readToDo(id: ID!): ToDo
 }
 
 type Mutation {
   hi: String
   authenticate(idToken: String!): Boolean
+  
+  # todos
+  createToDo(title: String!, description: String): ToDo
+  
+  updateToDo(id: ID!, title: String, description: String, isDone: Boolean): ToDo
+  updateToDoDone(id: ID!): ToDo
+  updateToDoUnDone(id: ID!): ToDo
+
+  deleteToDo(id: ID!): ToDo
 }

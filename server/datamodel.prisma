@@ -2,13 +2,16 @@
 type User {
   id: ID! @unique
   auth0id: String @unique
+  todoes: [ToDo!]!
+  labels: [Label!]!
 }
 
 type ToDo {
   id: ID! @unique
   title: String
   description: String
-  isDone: Boolean
+  isDone: Boolean! @default(value: "false")
+  user: User!
 }
 
 type Label {

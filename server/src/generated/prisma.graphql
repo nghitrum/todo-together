@@ -154,6 +154,11 @@ input LabelCreateInput {
   name: String
 }
 
+input LabelCreateManyInput {
+  create: [LabelCreateInput!]
+  connect: [LabelWhereUniqueInput!]
+}
+
 type LabelEdge {
   node: Label!
   cursor: String!
@@ -175,6 +180,40 @@ type LabelPreviousValues {
   name: String
 }
 
+input LabelScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [LabelScalarWhereInput!]
+  OR: [LabelScalarWhereInput!]
+  NOT: [LabelScalarWhereInput!]
+}
+
 type LabelSubscriptionPayload {
   mutation: MutationType!
   node: Label
@@ -193,12 +232,48 @@ input LabelSubscriptionWhereInput {
   NOT: [LabelSubscriptionWhereInput!]
 }
 
+input LabelUpdateDataInput {
+  name: String
+}
+
 input LabelUpdateInput {
   name: String
 }
 
+input LabelUpdateManyDataInput {
+  name: String
+}
+
+input LabelUpdateManyInput {
+  create: [LabelCreateInput!]
+  update: [LabelUpdateWithWhereUniqueNestedInput!]
+  upsert: [LabelUpsertWithWhereUniqueNestedInput!]
+  delete: [LabelWhereUniqueInput!]
+  connect: [LabelWhereUniqueInput!]
+  set: [LabelWhereUniqueInput!]
+  disconnect: [LabelWhereUniqueInput!]
+  deleteMany: [LabelScalarWhereInput!]
+  updateMany: [LabelUpdateManyWithWhereNestedInput!]
+}
+
 input LabelUpdateManyMutationInput {
   name: String
+}
+
+input LabelUpdateManyWithWhereNestedInput {
+  where: LabelScalarWhereInput!
+  data: LabelUpdateManyDataInput!
+}
+
+input LabelUpdateWithWhereUniqueNestedInput {
+  where: LabelWhereUniqueInput!
+  data: LabelUpdateDataInput!
+}
+
+input LabelUpsertWithWhereUniqueNestedInput {
+  where: LabelWhereUniqueInput!
+  update: LabelUpdateDataInput!
+  create: LabelCreateInput!
 }
 
 input LabelWhereInput {
@@ -312,7 +387,8 @@ type ToDo {
   id: ID!
   title: String
   description: String
-  isDone: Boolean
+  isDone: Boolean!
+  user: User!
 }
 
 type ToDoConnection {
@@ -322,6 +398,18 @@ type ToDoConnection {
 }
 
 input ToDoCreateInput {
+  title: String
+  description: String
+  isDone: Boolean
+  user: UserCreateOneWithoutTodoesInput!
+}
+
+input ToDoCreateManyWithoutUserInput {
+  create: [ToDoCreateWithoutUserInput!]
+  connect: [ToDoWhereUniqueInput!]
+}
+
+input ToDoCreateWithoutUserInput {
   title: String
   description: String
   isDone: Boolean
@@ -351,7 +439,57 @@ type ToDoPreviousValues {
   id: ID!
   title: String
   description: String
+  isDone: Boolean!
+}
+
+input ToDoScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
   isDone: Boolean
+  isDone_not: Boolean
+  AND: [ToDoScalarWhereInput!]
+  OR: [ToDoScalarWhereInput!]
+  NOT: [ToDoScalarWhereInput!]
 }
 
 type ToDoSubscriptionPayload {
@@ -376,12 +514,53 @@ input ToDoUpdateInput {
   title: String
   description: String
   isDone: Boolean
+  user: UserUpdateOneRequiredWithoutTodoesInput
+}
+
+input ToDoUpdateManyDataInput {
+  title: String
+  description: String
+  isDone: Boolean
 }
 
 input ToDoUpdateManyMutationInput {
   title: String
   description: String
   isDone: Boolean
+}
+
+input ToDoUpdateManyWithoutUserInput {
+  create: [ToDoCreateWithoutUserInput!]
+  delete: [ToDoWhereUniqueInput!]
+  connect: [ToDoWhereUniqueInput!]
+  set: [ToDoWhereUniqueInput!]
+  disconnect: [ToDoWhereUniqueInput!]
+  update: [ToDoUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [ToDoUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [ToDoScalarWhereInput!]
+  updateMany: [ToDoUpdateManyWithWhereNestedInput!]
+}
+
+input ToDoUpdateManyWithWhereNestedInput {
+  where: ToDoScalarWhereInput!
+  data: ToDoUpdateManyDataInput!
+}
+
+input ToDoUpdateWithoutUserDataInput {
+  title: String
+  description: String
+  isDone: Boolean
+}
+
+input ToDoUpdateWithWhereUniqueWithoutUserInput {
+  where: ToDoWhereUniqueInput!
+  data: ToDoUpdateWithoutUserDataInput!
+}
+
+input ToDoUpsertWithWhereUniqueWithoutUserInput {
+  where: ToDoWhereUniqueInput!
+  update: ToDoUpdateWithoutUserDataInput!
+  create: ToDoCreateWithoutUserInput!
 }
 
 input ToDoWhereInput {
@@ -429,6 +608,7 @@ input ToDoWhereInput {
   description_not_ends_with: String
   isDone: Boolean
   isDone_not: Boolean
+  user: UserWhereInput
   AND: [ToDoWhereInput!]
   OR: [ToDoWhereInput!]
   NOT: [ToDoWhereInput!]
@@ -441,6 +621,8 @@ input ToDoWhereUniqueInput {
 type User {
   id: ID!
   auth0id: String
+  todoes(where: ToDoWhereInput, orderBy: ToDoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ToDo!]
+  labels(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Label!]
 }
 
 type UserConnection {
@@ -451,6 +633,18 @@ type UserConnection {
 
 input UserCreateInput {
   auth0id: String
+  todoes: ToDoCreateManyWithoutUserInput
+  labels: LabelCreateManyInput
+}
+
+input UserCreateOneWithoutTodoesInput {
+  create: UserCreateWithoutTodoesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTodoesInput {
+  auth0id: String
+  labels: LabelCreateManyInput
 }
 
 type UserEdge {
@@ -494,10 +688,29 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   auth0id: String
+  todoes: ToDoUpdateManyWithoutUserInput
+  labels: LabelUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
   auth0id: String
+}
+
+input UserUpdateOneRequiredWithoutTodoesInput {
+  create: UserCreateWithoutTodoesInput
+  update: UserUpdateWithoutTodoesDataInput
+  upsert: UserUpsertWithoutTodoesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutTodoesDataInput {
+  auth0id: String
+  labels: LabelUpdateManyInput
+}
+
+input UserUpsertWithoutTodoesInput {
+  update: UserUpdateWithoutTodoesDataInput!
+  create: UserCreateWithoutTodoesInput!
 }
 
 input UserWhereInput {
@@ -529,6 +742,12 @@ input UserWhereInput {
   auth0id_not_starts_with: String
   auth0id_ends_with: String
   auth0id_not_ends_with: String
+  todoes_every: ToDoWhereInput
+  todoes_some: ToDoWhereInput
+  todoes_none: ToDoWhereInput
+  labels_every: LabelWhereInput
+  labels_some: LabelWhereInput
+  labels_none: LabelWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
