@@ -11,12 +11,16 @@ type ToDo {
   title: String
   description: String
   isDone: Boolean! @default(value: "false")
+  label: Label
+  color: Color
   user: User!
 }
 
 type Label {
   id: ID! @unique
-  name: String
+  name: String @unique
+  todo: ToDo
+  user: User!
 }
 
 type Color {

@@ -244,16 +244,6 @@ export type ColorOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type LabelOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
 export type ToDoOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -263,6 +253,16 @@ export type ToDoOrderByInput =
   | "description_DESC"
   | "isDone_ASC"
   | "isDone_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type LabelOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -334,44 +334,7 @@ export interface ColorWhereInput {
 
 export type LabelWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
-}>;
-
-export interface LabelWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
   name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  AND?: LabelWhereInput[] | LabelWhereInput;
-  OR?: LabelWhereInput[] | LabelWhereInput;
-  NOT?: LabelWhereInput[] | LabelWhereInput;
-}
-
-export type ToDoWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
 }>;
 
 export interface ToDoWhereInput {
@@ -419,10 +382,48 @@ export interface ToDoWhereInput {
   description_not_ends_with?: String;
   isDone?: Boolean;
   isDone_not?: Boolean;
+  label?: LabelWhereInput;
+  color?: ColorWhereInput;
   user?: UserWhereInput;
   AND?: ToDoWhereInput[] | ToDoWhereInput;
   OR?: ToDoWhereInput[] | ToDoWhereInput;
   NOT?: ToDoWhereInput[] | ToDoWhereInput;
+}
+
+export interface LabelWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  todo?: ToDoWhereInput;
+  user?: UserWhereInput;
+  AND?: LabelWhereInput[] | LabelWhereInput;
+  OR?: LabelWhereInput[] | LabelWhereInput;
+  NOT?: LabelWhereInput[] | LabelWhereInput;
 }
 
 export interface UserWhereInput {
@@ -465,6 +466,10 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
+export type ToDoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   auth0id?: String;
@@ -487,21 +492,26 @@ export interface ColorUpdateManyMutationInput {
 
 export interface LabelCreateInput {
   name?: String;
+  todo?: ToDoCreateOneWithoutLabelInput;
+  user: UserCreateOneWithoutLabelsInput;
 }
 
-export interface LabelUpdateInput {
-  name?: String;
+export interface ToDoCreateOneWithoutLabelInput {
+  create?: ToDoCreateWithoutLabelInput;
+  connect?: ToDoWhereUniqueInput;
 }
 
-export interface LabelUpdateManyMutationInput {
-  name?: String;
-}
-
-export interface ToDoCreateInput {
+export interface ToDoCreateWithoutLabelInput {
   title?: String;
   description?: String;
   isDone?: Boolean;
+  color?: ColorCreateOneInput;
   user: UserCreateOneWithoutTodoesInput;
+}
+
+export interface ColorCreateOneInput {
+  create?: ColorCreateInput;
+  connect?: ColorWhereUniqueInput;
 }
 
 export interface UserCreateOneWithoutTodoesInput {
@@ -511,19 +521,92 @@ export interface UserCreateOneWithoutTodoesInput {
 
 export interface UserCreateWithoutTodoesInput {
   auth0id?: String;
-  labels?: LabelCreateManyInput;
+  labels?: LabelCreateManyWithoutUserInput;
 }
 
-export interface LabelCreateManyInput {
-  create?: LabelCreateInput[] | LabelCreateInput;
+export interface LabelCreateManyWithoutUserInput {
+  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
   connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
 }
 
-export interface ToDoUpdateInput {
+export interface LabelCreateWithoutUserInput {
+  name?: String;
+  todo?: ToDoCreateOneWithoutLabelInput;
+}
+
+export interface UserCreateOneWithoutLabelsInput {
+  create?: UserCreateWithoutLabelsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutLabelsInput {
+  auth0id?: String;
+  todoes?: ToDoCreateManyWithoutUserInput;
+}
+
+export interface ToDoCreateManyWithoutUserInput {
+  create?: ToDoCreateWithoutUserInput[] | ToDoCreateWithoutUserInput;
+  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+}
+
+export interface ToDoCreateWithoutUserInput {
   title?: String;
   description?: String;
   isDone?: Boolean;
+  label?: LabelCreateOneWithoutTodoInput;
+  color?: ColorCreateOneInput;
+}
+
+export interface LabelCreateOneWithoutTodoInput {
+  create?: LabelCreateWithoutTodoInput;
+  connect?: LabelWhereUniqueInput;
+}
+
+export interface LabelCreateWithoutTodoInput {
+  name?: String;
+  user: UserCreateOneWithoutLabelsInput;
+}
+
+export interface LabelUpdateInput {
+  name?: String;
+  todo?: ToDoUpdateOneWithoutLabelInput;
+  user?: UserUpdateOneRequiredWithoutLabelsInput;
+}
+
+export interface ToDoUpdateOneWithoutLabelInput {
+  create?: ToDoCreateWithoutLabelInput;
+  update?: ToDoUpdateWithoutLabelDataInput;
+  upsert?: ToDoUpsertWithoutLabelInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: ToDoWhereUniqueInput;
+}
+
+export interface ToDoUpdateWithoutLabelDataInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  color?: ColorUpdateOneInput;
   user?: UserUpdateOneRequiredWithoutTodoesInput;
+}
+
+export interface ColorUpdateOneInput {
+  create?: ColorCreateInput;
+  update?: ColorUpdateDataInput;
+  upsert?: ColorUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: ColorWhereUniqueInput;
+}
+
+export interface ColorUpdateDataInput {
+  name?: String;
+  colorCode?: String;
+}
+
+export interface ColorUpsertNestedInput {
+  update: ColorUpdateDataInput;
+  create: ColorCreateInput;
 }
 
 export interface UserUpdateOneRequiredWithoutTodoesInput {
@@ -535,40 +618,41 @@ export interface UserUpdateOneRequiredWithoutTodoesInput {
 
 export interface UserUpdateWithoutTodoesDataInput {
   auth0id?: String;
-  labels?: LabelUpdateManyInput;
+  labels?: LabelUpdateManyWithoutUserInput;
 }
 
-export interface LabelUpdateManyInput {
-  create?: LabelCreateInput[] | LabelCreateInput;
-  update?:
-    | LabelUpdateWithWhereUniqueNestedInput[]
-    | LabelUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | LabelUpsertWithWhereUniqueNestedInput[]
-    | LabelUpsertWithWhereUniqueNestedInput;
+export interface LabelUpdateManyWithoutUserInput {
+  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
   delete?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
   connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
   set?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
   disconnect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
+  update?:
+    | LabelUpdateWithWhereUniqueWithoutUserInput[]
+    | LabelUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | LabelUpsertWithWhereUniqueWithoutUserInput[]
+    | LabelUpsertWithWhereUniqueWithoutUserInput;
   deleteMany?: LabelScalarWhereInput[] | LabelScalarWhereInput;
   updateMany?:
     | LabelUpdateManyWithWhereNestedInput[]
     | LabelUpdateManyWithWhereNestedInput;
 }
 
-export interface LabelUpdateWithWhereUniqueNestedInput {
+export interface LabelUpdateWithWhereUniqueWithoutUserInput {
   where: LabelWhereUniqueInput;
-  data: LabelUpdateDataInput;
+  data: LabelUpdateWithoutUserDataInput;
 }
 
-export interface LabelUpdateDataInput {
+export interface LabelUpdateWithoutUserDataInput {
   name?: String;
+  todo?: ToDoUpdateOneWithoutLabelInput;
 }
 
-export interface LabelUpsertWithWhereUniqueNestedInput {
+export interface LabelUpsertWithWhereUniqueWithoutUserInput {
   where: LabelWhereUniqueInput;
-  update: LabelUpdateDataInput;
-  create: LabelCreateInput;
+  update: LabelUpdateWithoutUserDataInput;
+  create: LabelCreateWithoutUserInput;
 }
 
 export interface LabelScalarWhereInput {
@@ -619,33 +703,21 @@ export interface UserUpsertWithoutTodoesInput {
   create: UserCreateWithoutTodoesInput;
 }
 
-export interface ToDoUpdateManyMutationInput {
-  title?: String;
-  description?: String;
-  isDone?: Boolean;
+export interface ToDoUpsertWithoutLabelInput {
+  update: ToDoUpdateWithoutLabelDataInput;
+  create: ToDoCreateWithoutLabelInput;
 }
 
-export interface UserCreateInput {
-  auth0id?: String;
-  todoes?: ToDoCreateManyWithoutUserInput;
-  labels?: LabelCreateManyInput;
+export interface UserUpdateOneRequiredWithoutLabelsInput {
+  create?: UserCreateWithoutLabelsInput;
+  update?: UserUpdateWithoutLabelsDataInput;
+  upsert?: UserUpsertWithoutLabelsInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface ToDoCreateManyWithoutUserInput {
-  create?: ToDoCreateWithoutUserInput[] | ToDoCreateWithoutUserInput;
-  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-}
-
-export interface ToDoCreateWithoutUserInput {
-  title?: String;
-  description?: String;
-  isDone?: Boolean;
-}
-
-export interface UserUpdateInput {
+export interface UserUpdateWithoutLabelsDataInput {
   auth0id?: String;
   todoes?: ToDoUpdateManyWithoutUserInput;
-  labels?: LabelUpdateManyInput;
 }
 
 export interface ToDoUpdateManyWithoutUserInput {
@@ -675,6 +747,27 @@ export interface ToDoUpdateWithoutUserDataInput {
   title?: String;
   description?: String;
   isDone?: Boolean;
+  label?: LabelUpdateOneWithoutTodoInput;
+  color?: ColorUpdateOneInput;
+}
+
+export interface LabelUpdateOneWithoutTodoInput {
+  create?: LabelCreateWithoutTodoInput;
+  update?: LabelUpdateWithoutTodoDataInput;
+  upsert?: LabelUpsertWithoutTodoInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: LabelWhereUniqueInput;
+}
+
+export interface LabelUpdateWithoutTodoDataInput {
+  name?: String;
+  user?: UserUpdateOneRequiredWithoutLabelsInput;
+}
+
+export interface LabelUpsertWithoutTodoInput {
+  update: LabelUpdateWithoutTodoDataInput;
+  create: LabelCreateWithoutTodoInput;
 }
 
 export interface ToDoUpsertWithWhereUniqueWithoutUserInput {
@@ -742,6 +835,51 @@ export interface ToDoUpdateManyDataInput {
   title?: String;
   description?: String;
   isDone?: Boolean;
+}
+
+export interface UserUpsertWithoutLabelsInput {
+  update: UserUpdateWithoutLabelsDataInput;
+  create: UserCreateWithoutLabelsInput;
+}
+
+export interface LabelUpdateManyMutationInput {
+  name?: String;
+}
+
+export interface ToDoCreateInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  label?: LabelCreateOneWithoutTodoInput;
+  color?: ColorCreateOneInput;
+  user: UserCreateOneWithoutTodoesInput;
+}
+
+export interface ToDoUpdateInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  label?: LabelUpdateOneWithoutTodoInput;
+  color?: ColorUpdateOneInput;
+  user?: UserUpdateOneRequiredWithoutTodoesInput;
+}
+
+export interface ToDoUpdateManyMutationInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface UserCreateInput {
+  auth0id?: String;
+  todoes?: ToDoCreateManyWithoutUserInput;
+  labels?: LabelCreateManyWithoutUserInput;
+}
+
+export interface UserUpdateInput {
+  auth0id?: String;
+  todoes?: ToDoUpdateManyWithoutUserInput;
+  labels?: LabelUpdateManyWithoutUserInput;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -901,6 +1039,8 @@ export interface Label {
 export interface LabelPromise extends Promise<Label>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  todo: <T = ToDoPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface LabelSubscription
@@ -908,60 +1048,8 @@ export interface LabelSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LabelConnection {
-  pageInfo: PageInfo;
-  edges: LabelEdge[];
-}
-
-export interface LabelConnectionPromise
-  extends Promise<LabelConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LabelEdge>>() => T;
-  aggregate: <T = AggregateLabelPromise>() => T;
-}
-
-export interface LabelConnectionSubscription
-  extends Promise<AsyncIterator<LabelConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LabelEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLabelSubscription>() => T;
-}
-
-export interface LabelEdge {
-  node: Label;
-  cursor: String;
-}
-
-export interface LabelEdgePromise extends Promise<LabelEdge>, Fragmentable {
-  node: <T = LabelPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface LabelEdgeSubscription
-  extends Promise<AsyncIterator<LabelEdge>>,
-    Fragmentable {
-  node: <T = LabelSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateLabel {
-  count: Int;
-}
-
-export interface AggregateLabelPromise
-  extends Promise<AggregateLabel>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateLabelSubscription
-  extends Promise<AsyncIterator<AggregateLabel>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  todo: <T = ToDoSubscription>() => T;
+  user: <T = UserSubscription>() => T;
 }
 
 export interface ToDo {
@@ -976,6 +1064,8 @@ export interface ToDoPromise extends Promise<ToDo>, Fragmentable {
   title: () => Promise<String>;
   description: () => Promise<String>;
   isDone: () => Promise<Boolean>;
+  label: <T = LabelPromise>() => T;
+  color: <T = ColorPromise>() => T;
   user: <T = UserPromise>() => T;
 }
 
@@ -986,6 +1076,8 @@ export interface ToDoSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   isDone: () => Promise<AsyncIterator<Boolean>>;
+  label: <T = LabelSubscription>() => T;
+  color: <T = ColorSubscription>() => T;
   user: <T = UserSubscription>() => T;
 }
 
@@ -1048,6 +1140,60 @@ export interface UserSubscription
       last?: Int;
     }
   ) => T;
+}
+
+export interface LabelConnection {
+  pageInfo: PageInfo;
+  edges: LabelEdge[];
+}
+
+export interface LabelConnectionPromise
+  extends Promise<LabelConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LabelEdge>>() => T;
+  aggregate: <T = AggregateLabelPromise>() => T;
+}
+
+export interface LabelConnectionSubscription
+  extends Promise<AsyncIterator<LabelConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LabelEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLabelSubscription>() => T;
+}
+
+export interface LabelEdge {
+  node: Label;
+  cursor: String;
+}
+
+export interface LabelEdgePromise extends Promise<LabelEdge>, Fragmentable {
+  node: <T = LabelPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LabelEdgeSubscription
+  extends Promise<AsyncIterator<LabelEdge>>,
+    Fragmentable {
+  node: <T = LabelSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateLabel {
+  count: Int;
+}
+
+export interface AggregateLabelPromise
+  extends Promise<AggregateLabel>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLabelSubscription
+  extends Promise<AsyncIterator<AggregateLabel>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface ToDoConnection {

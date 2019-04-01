@@ -28,7 +28,7 @@ const Mutation = {
     return false;
   },
 
-  /**
+  /*********************************************************************
    * Regarding to todos
    */
 
@@ -59,9 +59,9 @@ const Mutation = {
 
   /**
    * Update a ToDo
-   * @param {*} _ 
-   * @param {*} args 
-   * @param {*} ctx 
+   * @param {*} _
+   * @param {*} args
+   * @param {*} ctx
    */
   async updateToDo(_, args, ctx) {
     if (!ctx.user) {
@@ -82,9 +82,9 @@ const Mutation = {
 
   /**
    * Done a ToDo
-   * @param {*} _ 
-   * @param {*} param1 
-   * @param {*} ctx 
+   * @param {*} _
+   * @param {*} param1
+   * @param {*} ctx
    */
   async updateToDoDone(_, { id }, ctx) {
     if (!ctx.user) {
@@ -103,9 +103,9 @@ const Mutation = {
 
   /**
    * UnDone a ToDo
-   * @param {*} _ 
-   * @param {*} param1 
-   * @param {*} ctx 
+   * @param {*} _
+   * @param {*} param1
+   * @param {*} ctx
    */
   async updateToDoUnDone(_, { id }, ctx) {
     if (!ctx.user) {
@@ -124,9 +124,9 @@ const Mutation = {
 
   /**
    * Delete A ToDo
-   * @param {*} _ 
-   * @param {*} param1 
-   * @param {*} ctx 
+   * @param {*} _
+   * @param {*} param1
+   * @param {*} ctx
    */
   async deleteToDo(_, { id }, ctx) {
     if (!ctx.user) {
@@ -134,6 +134,71 @@ const Mutation = {
     }
 
     return await prisma.deleteToDo({ id });
+  },
+
+  /*********************************************************************
+   * Regarding to label
+   */
+
+  async createLabel(_, args, ctx) {
+    if (!ctx.user) {
+      throw new Error('You must be logged in to do that!');
+    }
+    const sub = ctx.user.sub;
+    const user = await prisma.user({ auth0id: sub });
+
+    const checkLabel = await prisma.label({ name: args.name });
+    if (checkLabel) {
+      throw new Error('Duplicate label');
+    }
+
+    const label = await prisma.createLabel({
+      ...args,
+      user: {
+        connect: {
+          id: user.id
+        }
+      }
+    });
+
+    return label;
+  },
+
+  /**
+   * Update a Label
+   * @param {*} _
+   * @param {*} args
+   * @param {*} ctx
+   */
+  async updateLabel(_, args, ctx) {
+    if (!ctx.user) {
+      throw new Error('You must be logged in to do that!');
+    }
+
+    const updates = { ...args };
+    // remove the ID from the updates
+    delete updates.id;
+    // run the update method
+    return await prisma.updateLabel({
+      data: updates,
+      where: {
+        id: args.id
+      }
+    });
+  },
+
+  /**
+   * Delete A Label
+   * @param {*} _
+   * @param {*} param1
+   * @param {*} ctx
+   */
+  async deleteLabel(_, { id }, ctx) {
+    if (!ctx.user) {
+      throw new Error('You must be logged in to do that!');
+    }
+
+    return await prisma.deleteLabel({ id });
   }
 };
 

@@ -19,6 +19,7 @@ class App extends Component {
       credentials: 'same-origin'
     });
     const idToken = this.props.auth.getIdToken();
+    console.log(idToken);
     const authLink = setContext((_, { headers }) => {
       return {
         headers: {

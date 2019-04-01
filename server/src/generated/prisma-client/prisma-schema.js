@@ -40,6 +40,11 @@ input ColorCreateInput {
   colorCode: String
 }
 
+input ColorCreateOneInput {
+  create: ColorCreateInput
+  connect: ColorWhereUniqueInput
+}
+
 type ColorEdge {
   node: Color!
   cursor: String!
@@ -82,6 +87,11 @@ input ColorSubscriptionWhereInput {
   NOT: [ColorSubscriptionWhereInput!]
 }
 
+input ColorUpdateDataInput {
+  name: String
+  colorCode: String
+}
+
 input ColorUpdateInput {
   name: String
   colorCode: String
@@ -90,6 +100,20 @@ input ColorUpdateInput {
 input ColorUpdateManyMutationInput {
   name: String
   colorCode: String
+}
+
+input ColorUpdateOneInput {
+  create: ColorCreateInput
+  update: ColorUpdateDataInput
+  upsert: ColorUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ColorWhereUniqueInput
+}
+
+input ColorUpsertNestedInput {
+  update: ColorUpdateDataInput!
+  create: ColorCreateInput!
 }
 
 input ColorWhereInput {
@@ -147,6 +171,8 @@ input ColorWhereUniqueInput {
 type Label {
   id: ID!
   name: String
+  todo: ToDo
+  user: User!
 }
 
 type LabelConnection {
@@ -157,11 +183,28 @@ type LabelConnection {
 
 input LabelCreateInput {
   name: String
+  todo: ToDoCreateOneWithoutLabelInput
+  user: UserCreateOneWithoutLabelsInput!
 }
 
-input LabelCreateManyInput {
-  create: [LabelCreateInput!]
+input LabelCreateManyWithoutUserInput {
+  create: [LabelCreateWithoutUserInput!]
   connect: [LabelWhereUniqueInput!]
+}
+
+input LabelCreateOneWithoutTodoInput {
+  create: LabelCreateWithoutTodoInput
+  connect: LabelWhereUniqueInput
+}
+
+input LabelCreateWithoutTodoInput {
+  name: String
+  user: UserCreateOneWithoutLabelsInput!
+}
+
+input LabelCreateWithoutUserInput {
+  name: String
+  todo: ToDoCreateOneWithoutLabelInput
 }
 
 type LabelEdge {
@@ -237,32 +280,30 @@ input LabelSubscriptionWhereInput {
   NOT: [LabelSubscriptionWhereInput!]
 }
 
-input LabelUpdateDataInput {
-  name: String
-}
-
 input LabelUpdateInput {
   name: String
+  todo: ToDoUpdateOneWithoutLabelInput
+  user: UserUpdateOneRequiredWithoutLabelsInput
 }
 
 input LabelUpdateManyDataInput {
   name: String
 }
 
-input LabelUpdateManyInput {
-  create: [LabelCreateInput!]
-  update: [LabelUpdateWithWhereUniqueNestedInput!]
-  upsert: [LabelUpsertWithWhereUniqueNestedInput!]
+input LabelUpdateManyMutationInput {
+  name: String
+}
+
+input LabelUpdateManyWithoutUserInput {
+  create: [LabelCreateWithoutUserInput!]
   delete: [LabelWhereUniqueInput!]
   connect: [LabelWhereUniqueInput!]
   set: [LabelWhereUniqueInput!]
   disconnect: [LabelWhereUniqueInput!]
+  update: [LabelUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LabelUpsertWithWhereUniqueWithoutUserInput!]
   deleteMany: [LabelScalarWhereInput!]
   updateMany: [LabelUpdateManyWithWhereNestedInput!]
-}
-
-input LabelUpdateManyMutationInput {
-  name: String
 }
 
 input LabelUpdateManyWithWhereNestedInput {
@@ -270,15 +311,39 @@ input LabelUpdateManyWithWhereNestedInput {
   data: LabelUpdateManyDataInput!
 }
 
-input LabelUpdateWithWhereUniqueNestedInput {
-  where: LabelWhereUniqueInput!
-  data: LabelUpdateDataInput!
+input LabelUpdateOneWithoutTodoInput {
+  create: LabelCreateWithoutTodoInput
+  update: LabelUpdateWithoutTodoDataInput
+  upsert: LabelUpsertWithoutTodoInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: LabelWhereUniqueInput
 }
 
-input LabelUpsertWithWhereUniqueNestedInput {
+input LabelUpdateWithoutTodoDataInput {
+  name: String
+  user: UserUpdateOneRequiredWithoutLabelsInput
+}
+
+input LabelUpdateWithoutUserDataInput {
+  name: String
+  todo: ToDoUpdateOneWithoutLabelInput
+}
+
+input LabelUpdateWithWhereUniqueWithoutUserInput {
   where: LabelWhereUniqueInput!
-  update: LabelUpdateDataInput!
-  create: LabelCreateInput!
+  data: LabelUpdateWithoutUserDataInput!
+}
+
+input LabelUpsertWithoutTodoInput {
+  update: LabelUpdateWithoutTodoDataInput!
+  create: LabelCreateWithoutTodoInput!
+}
+
+input LabelUpsertWithWhereUniqueWithoutUserInput {
+  where: LabelWhereUniqueInput!
+  update: LabelUpdateWithoutUserDataInput!
+  create: LabelCreateWithoutUserInput!
 }
 
 input LabelWhereInput {
@@ -310,6 +375,8 @@ input LabelWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  todo: ToDoWhereInput
+  user: UserWhereInput
   AND: [LabelWhereInput!]
   OR: [LabelWhereInput!]
   NOT: [LabelWhereInput!]
@@ -317,6 +384,7 @@ input LabelWhereInput {
 
 input LabelWhereUniqueInput {
   id: ID
+  name: String
 }
 
 scalar Long
@@ -393,6 +461,8 @@ type ToDo {
   title: String
   description: String
   isDone: Boolean!
+  label: Label
+  color: Color
   user: User!
 }
 
@@ -406,6 +476,8 @@ input ToDoCreateInput {
   title: String
   description: String
   isDone: Boolean
+  label: LabelCreateOneWithoutTodoInput
+  color: ColorCreateOneInput
   user: UserCreateOneWithoutTodoesInput!
 }
 
@@ -414,10 +486,25 @@ input ToDoCreateManyWithoutUserInput {
   connect: [ToDoWhereUniqueInput!]
 }
 
+input ToDoCreateOneWithoutLabelInput {
+  create: ToDoCreateWithoutLabelInput
+  connect: ToDoWhereUniqueInput
+}
+
+input ToDoCreateWithoutLabelInput {
+  title: String
+  description: String
+  isDone: Boolean
+  color: ColorCreateOneInput
+  user: UserCreateOneWithoutTodoesInput!
+}
+
 input ToDoCreateWithoutUserInput {
   title: String
   description: String
   isDone: Boolean
+  label: LabelCreateOneWithoutTodoInput
+  color: ColorCreateOneInput
 }
 
 type ToDoEdge {
@@ -519,6 +606,8 @@ input ToDoUpdateInput {
   title: String
   description: String
   isDone: Boolean
+  label: LabelUpdateOneWithoutTodoInput
+  color: ColorUpdateOneInput
   user: UserUpdateOneRequiredWithoutTodoesInput
 }
 
@@ -551,15 +640,39 @@ input ToDoUpdateManyWithWhereNestedInput {
   data: ToDoUpdateManyDataInput!
 }
 
+input ToDoUpdateOneWithoutLabelInput {
+  create: ToDoCreateWithoutLabelInput
+  update: ToDoUpdateWithoutLabelDataInput
+  upsert: ToDoUpsertWithoutLabelInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ToDoWhereUniqueInput
+}
+
+input ToDoUpdateWithoutLabelDataInput {
+  title: String
+  description: String
+  isDone: Boolean
+  color: ColorUpdateOneInput
+  user: UserUpdateOneRequiredWithoutTodoesInput
+}
+
 input ToDoUpdateWithoutUserDataInput {
   title: String
   description: String
   isDone: Boolean
+  label: LabelUpdateOneWithoutTodoInput
+  color: ColorUpdateOneInput
 }
 
 input ToDoUpdateWithWhereUniqueWithoutUserInput {
   where: ToDoWhereUniqueInput!
   data: ToDoUpdateWithoutUserDataInput!
+}
+
+input ToDoUpsertWithoutLabelInput {
+  update: ToDoUpdateWithoutLabelDataInput!
+  create: ToDoCreateWithoutLabelInput!
 }
 
 input ToDoUpsertWithWhereUniqueWithoutUserInput {
@@ -613,6 +726,8 @@ input ToDoWhereInput {
   description_not_ends_with: String
   isDone: Boolean
   isDone_not: Boolean
+  label: LabelWhereInput
+  color: ColorWhereInput
   user: UserWhereInput
   AND: [ToDoWhereInput!]
   OR: [ToDoWhereInput!]
@@ -639,7 +754,12 @@ type UserConnection {
 input UserCreateInput {
   auth0id: String
   todoes: ToDoCreateManyWithoutUserInput
-  labels: LabelCreateManyInput
+  labels: LabelCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutLabelsInput {
+  create: UserCreateWithoutLabelsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutTodoesInput {
@@ -647,9 +767,14 @@ input UserCreateOneWithoutTodoesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutLabelsInput {
+  auth0id: String
+  todoes: ToDoCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutTodoesInput {
   auth0id: String
-  labels: LabelCreateManyInput
+  labels: LabelCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -694,11 +819,18 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   auth0id: String
   todoes: ToDoUpdateManyWithoutUserInput
-  labels: LabelUpdateManyInput
+  labels: LabelUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   auth0id: String
+}
+
+input UserUpdateOneRequiredWithoutLabelsInput {
+  create: UserCreateWithoutLabelsInput
+  update: UserUpdateWithoutLabelsDataInput
+  upsert: UserUpsertWithoutLabelsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutTodoesInput {
@@ -708,9 +840,19 @@ input UserUpdateOneRequiredWithoutTodoesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutLabelsDataInput {
+  auth0id: String
+  todoes: ToDoUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutTodoesDataInput {
   auth0id: String
-  labels: LabelUpdateManyInput
+  labels: LabelUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutLabelsInput {
+  update: UserUpdateWithoutLabelsDataInput!
+  create: UserCreateWithoutLabelsInput!
 }
 
 input UserUpsertWithoutTodoesInput {
