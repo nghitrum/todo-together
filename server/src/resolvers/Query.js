@@ -23,7 +23,9 @@ const Query = {
     const sub = ctx.user.sub;
     const user = await prisma.user({ auth0id: sub });
 
-    return await prisma.user({ id: user.id }).todoes();
+    return await prisma
+      .user({ id: user.id })
+      .todoes({ orderBy: 'updatedAt_DESC' });
   },
 
   /**

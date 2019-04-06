@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
-import { Segment } from 'semantic-ui-react';
 import './Main.css';
+import Upload from './Upload';
+import List from './List';
 
 class Main extends Component {
   render() {
     // console.log(this.props.auth.isAuthenticated());
     // console.log(this.props.auth.getIdToken())
     return (
-      <Segment className="main-content">
-        <div className="ui cards">
-          <div className="ui red fluid card">
-            <div className="content">
-              <div className="header">Option 1</div>
+      <div className="main-content">
+        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm">
+          {this.props.auth.isAuthenticated() && (
+            <div>
+              <Upload />
             </div>
-          </div>
-          <div className="ui orange fluid card">
-            <div className="content">
-              <div className="header">Option 2</div>
-            </div>
-          </div>
-          <div className="ui yellow fluid card">
-            <div className="content">
-              <div className="header">Option 3</div>
-            </div>
-          </div>
+          )}
         </div>
-      </Segment>
+        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm">
+          {this.props.auth.isAuthenticated() && (
+            <div>
+              <List />
+            </div>
+          )}
+        </div>
+      </div>
     );
   }
 }

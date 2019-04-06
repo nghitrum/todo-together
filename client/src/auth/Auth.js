@@ -11,6 +11,7 @@ export default class Auth {
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getIdToken = this.getIdToken.bind(this);
     this.renewSession = this.renewSession.bind(this);
+    this.getPayload = this.getPayload.bind(this);
 
     this.auth0 = new auth0.WebAuth({
       domain: AUTH_CONFIG.domain,
@@ -22,6 +23,7 @@ export default class Auth {
     this.accessToken = '';
     this.idToken = '';
     this.expiresAt = '';
+    this.payload = '';
   }
 
   login() {
@@ -48,6 +50,10 @@ export default class Auth {
     return this.idToken;
   }
 
+  getPayload() {
+    return this.payload;
+  }
+
   setSession(authResult) {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
@@ -56,7 +62,12 @@ export default class Auth {
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
+    this.payload = authResult.idTokenPayload;
 
+    if (!localStorage.getItem('auth0-name')) {
+      localStorage.setItem('auth0-name', this.payload.name);
+    }
+    console.log(authResult);
     history.replace('/home');
   }
 
@@ -82,14 +93,12 @@ export default class Auth {
 
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('auth0-name');
 
     this.auth0.logout({
       returnTo: AUTH_CONFIG.clientUrl,
       client_id: AUTH_CONFIG.clientId
     });
-
-    // navigate to the home route
-    //history.replace('/home');
   }
 
   isAuthenticated() {

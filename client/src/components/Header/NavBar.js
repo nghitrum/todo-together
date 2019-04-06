@@ -12,7 +12,6 @@ class NavBar extends Component {
 
   login = () => {
     this.props.auth.login();
-    console.log('navbar');
   };
 
   logout = () => {
@@ -31,29 +30,24 @@ class NavBar extends Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu fixed="top" inverted size="large">
-        <Menu.Item
-          name="home"
-          active={activeItem === 'home'}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Menu position="right">
-          {!this.props.auth.isAuthenticated() && (
-            <Menu.Item
-              name="login"
-              active={activeItem === 'login'}
-              onClick={this.login}
-            />
-          )}
-          {this.props.auth.isAuthenticated() && (
-            <Menu.Item
-              name="logout"
-              active={activeItem === 'logout'}
-              onClick={this.logout}
-            />
-          )}
-        </Menu.Menu>
-      </Menu>
+      <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 className="my-0 mr-md-auto font-weight-normal">TODO Together</h5>
+        {!this.props.auth.isAuthenticated() && (
+          <a className="btn btn-outline-primary" href="#" onClick={this.login}>
+            Login
+          </a>
+        )}
+        {this.props.auth.isAuthenticated() && (
+          <span className="navbar-text mr-3">
+            Hello, {localStorage.getItem('auth0-name')}
+          </span>
+        )}
+        {this.props.auth.isAuthenticated() && (
+          <a className="btn btn-outline-secondary" href="#" onClick={this.logout}>
+            Logout
+          </a>
+        )}
+      </div>
     );
   }
 }

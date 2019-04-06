@@ -1,5 +1,3 @@
-import 'semantic-ui-css/semantic.min.css';
-import './App.css';
 import React, { Component } from 'react';
 import NavBar from './Header/NavBar';
 import Main from './Home/Main';
@@ -40,7 +38,6 @@ class App extends Component {
       }
     `;
 
-
     client
       .mutate({
         variables: { idToken },
@@ -55,11 +52,10 @@ class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <Container>
+        <div className="container">
           <NavBar {...this.props} />
-          <LeftNav />
           <Main {...this.props} />
-        </Container>
+        </div>
       </ApolloProvider>
     );
   }

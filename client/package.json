@@ -6,6 +6,7 @@
     "apollo-boost": "^0.3.1",
     "apollo-link-context": "^1.0.17",
     "auth0-js": "^9.10.1",
+    "bootstrap": "^4.3.1",
     "dotenv": "^7.0.0",
     "dotenv-webpack": "^1.7.0",
     "graphql": "^14.1.1",
@@ -15,9 +16,7 @@
     "react-apollo": "^2.5.2",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0"
+    "react-scripts": "2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
