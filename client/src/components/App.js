@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import NavBar from './Header/NavBar';
 import Main from './Home/Main';
-import LeftNav from './Header/LeftNav';
-import { Container } from 'semantic-ui-react';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
@@ -44,8 +42,6 @@ class App extends Component {
         mutation: AUTHENTICATE
       })
       .then(res => {
-        //console.log(res);
-        // navigate to the home route
         console.log(res);
       })
       .catch(err => console.log('Sign in or create account error: ', err));

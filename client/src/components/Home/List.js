@@ -1,33 +1,7 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
+import React from 'react';
 import { Query, Mutation } from 'react-apollo';
-
-const GET_ALL_TODOES = gql`
-  {
-    readAllToDoes {
-      id
-      title
-      description
-      isDone
-      label {
-        id
-        name
-      }
-      color {
-        name
-        colorCode
-      }
-    }
-  }
-`;
-
-const MARK_AS_DONE = gql`
-  mutation markAsDone($id: ID!) {
-    updateToDoDone(id: $id) {
-      id
-    }
-  }
-`;
+import { GET_ALL_TODOES } from '../GQL/Query';
+import { MARK_AS_DONE, MARK_AS_UNDONE, DELETE_TODO } from '../GQL/Mutation';
 
 const List = () => (
   <Query query={GET_ALL_TODOES}>
@@ -37,15 +11,14 @@ const List = () => (
 
       return (
         <div>
-          <h1>Here is your todoes</h1>
           <div className="list-group">
             {data.readAllToDoes.map(item => (
               <div
                 key={item.id}
-                className="list-group-item list-group-item-action mb-3 rounded"
+                className="list-group-item list-group-item-action p-3 mb-3 rounded"
               >
                 <div className="row">
-                  <div className="col-9">
+                  <div className="col">
                     <a
                       className="list-group-item-action"
                       data-toggle="collapse"
@@ -58,11 +31,25 @@ const List = () => (
                     </a>
                   </div>
 
-                  <div className="col-3">
+                  <div className="col">
                     {!item.isDone && (
                       <Mutation
                         mutation={MARK_AS_DONE}
-                        refetchQueries={[{ query: GET_ALL_TODOES }]}
+                        update={(cache, { data: { updateToDoDone } }) => {
+                          const { readAllToDoes } = cache.readQuery({
+                            query: GET_ALL_TODOES
+                          });
+
+                          let objIndex = readAllToDoes.findIndex(
+                            obj => obj.id == updateToDoDone.id
+                          );
+                          readAllToDoes[objIndex].isDone = true;
+
+                          cache.writeQuery({
+                            query: GET_ALL_TODOES,
+                            data: { readAllToDoes }
+                          });
+                        }}
                       >
                         {(updateToDoDone, { data }) => (
                           <button
@@ -71,7 +58,6 @@ const List = () => (
                             onClick={e => {
                               e.preventDefault();
                               updateToDoDone({ variables: { id: item.id } });
-                              console.log(data);
                             }}
                           >
                             Mark as done
@@ -79,14 +65,72 @@ const List = () => (
                         )}
                       </Mutation>
                     )}
+
                     {item.isDone && (
-                      <button
-                        type="button"
-                        className="close"
-                        aria-label="Close"
+                      <Mutation
+                        mutation={DELETE_TODO}
+                        update={(cache, { data: { deleteToDo } }) => {
+                          const { readAllToDoes } = cache.readQuery({
+                            query: GET_ALL_TODOES
+                          });
+
+                          let objIndex = readAllToDoes.findIndex(
+                            obj => obj.id == deleteToDo.id
+                          );
+                          readAllToDoes.splice(objIndex, 1);
+
+                          cache.writeQuery({
+                            query: GET_ALL_TODOES,
+                            data: { readAllToDoes }
+                          });
+                        }}
                       >
-                        <i className="fas fa-check" />
-                      </button>
+                        {(updateToDoDone, { data }) => (
+                          <button
+                            type="button"
+                            className="btn btn-danger float-right"
+                            onClick={e => {
+                              e.preventDefault();
+                              updateToDoDone({ variables: { id: item.id } });
+                            }}
+                          >
+                            Delete Todo
+                          </button>
+                        )}
+                      </Mutation>
+                    )}
+                    {item.isDone && (
+                      <Mutation
+                        mutation={MARK_AS_UNDONE}
+                        update={(cache, { data: { updateToDoUnDone } }) => {
+                          const { readAllToDoes } = cache.readQuery({
+                            query: GET_ALL_TODOES
+                          });
+
+                          let objIndex = readAllToDoes.findIndex(
+                            obj => obj.id == updateToDoUnDone.id
+                          );
+                          readAllToDoes[objIndex].isDone = false;
+
+                          cache.writeQuery({
+                            query: GET_ALL_TODOES,
+                            data: { readAllToDoes }
+                          });
+                        }}
+                      >
+                        {(updateToDoDone, { data }) => (
+                          <button
+                            type="button"
+                            className="btn btn-warning float-right mr-3"
+                            onClick={e => {
+                              e.preventDefault();
+                              updateToDoDone({ variables: { id: item.id } });
+                            }}
+                          >
+                            Mark as undone
+                          </button>
+                        )}
+                      </Mutation>
                     )}
                   </div>
                 </div>

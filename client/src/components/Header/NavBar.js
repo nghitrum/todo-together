@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
 
 class NavBar extends Component {
-  state = { activeItem: 'home' };
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-  goTo(route) {
-    this.props.history.replace(`/${route}`);
-  }
-
   login = () => {
     this.props.auth.login();
   };
@@ -27,15 +18,13 @@ class NavBar extends Component {
   }
 
   render() {
-    const { activeItem } = this.state;
-
     return (
-      <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <div className="sticky-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm rounded-bottom bg-dark text-light">
         <h5 className="my-0 mr-md-auto font-weight-normal">TODO Together</h5>
         {!this.props.auth.isAuthenticated() && (
-          <a className="btn btn-outline-primary" href="#" onClick={this.login}>
+          <button className="btn btn-primary" onClick={this.login}>
             Login
-          </a>
+          </button>
         )}
         {this.props.auth.isAuthenticated() && (
           <span className="navbar-text mr-3">
@@ -43,9 +32,9 @@ class NavBar extends Component {
           </span>
         )}
         {this.props.auth.isAuthenticated() && (
-          <a className="btn btn-outline-secondary" href="#" onClick={this.logout}>
+          <button className="btn btn-secondary" onClick={this.logout}>
             Logout
-          </a>
+          </button>
         )}
       </div>
     );

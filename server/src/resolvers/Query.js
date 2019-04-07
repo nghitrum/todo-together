@@ -25,7 +25,7 @@ const Query = {
 
     return await prisma
       .user({ id: user.id })
-      .todoes({ orderBy: 'updatedAt_DESC' });
+      .todoes({ orderBy: 'createdAt_DESC' });
   },
 
   /**

@@ -9,14 +9,14 @@ class Main extends Component {
     // console.log(this.props.auth.getIdToken())
     return (
       <div className="main-content">
-        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm">
+        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm rounded">
           {this.props.auth.isAuthenticated() && (
             <div>
               <Upload />
             </div>
           )}
         </div>
-        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm">
+        <div className="container align-items-center p-3 px-md-4 mb-3 bg-white shadow-sm rounded">
           {this.props.auth.isAuthenticated() && (
             <div>
               <List />

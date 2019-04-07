@@ -16,7 +16,7 @@ const handleAuthentication = ({ location }) => {
 export const makeMainRoutes = () => {
   return (
     <Router history={history} component={App}>
-      <div>
+      <div className='bg-light'>
         <Route path="/" render={props => <App auth={auth} {...props} />} />
         <Route
           path="/callback"
