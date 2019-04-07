@@ -32,6 +32,38 @@ const List = () => (
                   </div>
 
                   <div className="col">
+                    <Mutation
+                      mutation={DELETE_TODO}
+                      update={(cache, { data: { deleteToDo } }) => {
+                        const { readAllToDoes } = cache.readQuery({
+                          query: GET_ALL_TODOES
+                        });
+
+                        let objIndex = readAllToDoes.findIndex(
+                          obj => obj.id == deleteToDo.id
+                        );
+                        readAllToDoes.splice(objIndex, 1);
+
+                        cache.writeQuery({
+                          query: GET_ALL_TODOES,
+                          data: { readAllToDoes }
+                        });
+                      }}
+                    >
+                      {(updateToDoDone, { data }) => (
+                        <button
+                          type="button"
+                          className="btn btn-danger float-right ml-3"
+                          onClick={e => {
+                            e.preventDefault();
+                            updateToDoDone({ variables: { id: item.id } });
+                          }}
+                        >
+                          Delete Todo
+                        </button>
+                      )}
+                    </Mutation>
+
                     {!item.isDone && (
                       <Mutation
                         mutation={MARK_AS_DONE}
@@ -65,40 +97,6 @@ const List = () => (
                         )}
                       </Mutation>
                     )}
-
-                    {item.isDone && (
-                      <Mutation
-                        mutation={DELETE_TODO}
-                        update={(cache, { data: { deleteToDo } }) => {
-                          const { readAllToDoes } = cache.readQuery({
-                            query: GET_ALL_TODOES
-                          });
-
-                          let objIndex = readAllToDoes.findIndex(
-                            obj => obj.id == deleteToDo.id
-                          );
-                          readAllToDoes.splice(objIndex, 1);
-
-                          cache.writeQuery({
-                            query: GET_ALL_TODOES,
-                            data: { readAllToDoes }
-                          });
-                        }}
-                      >
-                        {(updateToDoDone, { data }) => (
-                          <button
-                            type="button"
-                            className="btn btn-danger float-right"
-                            onClick={e => {
-                              e.preventDefault();
-                              updateToDoDone({ variables: { id: item.id } });
-                            }}
-                          >
-                            Delete Todo
-                          </button>
-                        )}
-                      </Mutation>
-                    )}
                     {item.isDone && (
                       <Mutation
                         mutation={MARK_AS_UNDONE}
@@ -121,7 +119,7 @@ const List = () => (
                         {(updateToDoDone, { data }) => (
                           <button
                             type="button"
-                            className="btn btn-warning float-right mr-3"
+                            className="btn btn-warning float-right"
                             onClick={e => {
                               e.preventDefault();
                               updateToDoDone({ variables: { id: item.id } });
