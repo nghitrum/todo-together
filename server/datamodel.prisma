@@ -13,8 +13,8 @@ type ToDo {
   title: String
   description: String
   isDone: Boolean! @default(value: false)
-  label: Label @relation(link: INLINE)
-  color: Color @relation(link: INLINE)
+  label: Label @relation(link: INLINE, name: "ToDoLabel")
+  color: Color @relation(link: INLINE, name: "ToDoColor")
   user: User! @relation(name: "Owner")
   sharedWith: [User!]! @relation(name: "SharedWith")
   createdAt: DateTime! @createdAt
@@ -24,7 +24,7 @@ type ToDo {
 type Label {
   id: ID! @id @unique
   name: String @unique
-  todo: ToDo
+  todo: ToDo @relation(link: INLINE, name: "ToDoLabel")
   user: User!
 }
 
@@ -32,4 +32,5 @@ type Color {
   id: ID! @id @unique
   name: String
   colorCode: String
+  todo: ToDo @relation(link: INLINE, name: "ToDoColor")
 }

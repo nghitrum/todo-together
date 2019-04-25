@@ -27,6 +27,7 @@ type Color {
   id: ID!
   name: String
   colorCode: String
+  todo: ToDo
 }
 
 type ColorConnection {
@@ -39,11 +40,18 @@ input ColorCreateInput {
   id: ID
   name: String
   colorCode: String
+  todo: ToDoCreateOneWithoutColorInput
 }
 
-input ColorCreateOneInput {
-  create: ColorCreateInput
+input ColorCreateOneWithoutTodoInput {
+  create: ColorCreateWithoutTodoInput
   connect: ColorWhereUniqueInput
+}
+
+input ColorCreateWithoutTodoInput {
+  id: ID
+  name: String
+  colorCode: String
 }
 
 type ColorEdge {
@@ -88,14 +96,10 @@ input ColorSubscriptionWhereInput {
   NOT: [ColorSubscriptionWhereInput!]
 }
 
-input ColorUpdateDataInput {
-  name: String
-  colorCode: String
-}
-
 input ColorUpdateInput {
   name: String
   colorCode: String
+  todo: ToDoUpdateOneWithoutColorInput
 }
 
 input ColorUpdateManyMutationInput {
@@ -103,18 +107,23 @@ input ColorUpdateManyMutationInput {
   colorCode: String
 }
 
-input ColorUpdateOneInput {
-  create: ColorCreateInput
-  update: ColorUpdateDataInput
-  upsert: ColorUpsertNestedInput
+input ColorUpdateOneWithoutTodoInput {
+  create: ColorCreateWithoutTodoInput
+  update: ColorUpdateWithoutTodoDataInput
+  upsert: ColorUpsertWithoutTodoInput
   delete: Boolean
   disconnect: Boolean
   connect: ColorWhereUniqueInput
 }
 
-input ColorUpsertNestedInput {
-  update: ColorUpdateDataInput!
-  create: ColorCreateInput!
+input ColorUpdateWithoutTodoDataInput {
+  name: String
+  colorCode: String
+}
+
+input ColorUpsertWithoutTodoInput {
+  update: ColorUpdateWithoutTodoDataInput!
+  create: ColorCreateWithoutTodoInput!
 }
 
 input ColorWhereInput {
@@ -160,6 +169,7 @@ input ColorWhereInput {
   colorCode_not_starts_with: String
   colorCode_ends_with: String
   colorCode_not_ends_with: String
+  todo: ToDoWhereInput
   AND: [ColorWhereInput!]
   OR: [ColorWhereInput!]
   NOT: [ColorWhereInput!]
@@ -487,7 +497,7 @@ input ToDoCreateInput {
   description: String
   isDone: Boolean
   label: LabelCreateOneWithoutTodoInput
-  color: ColorCreateOneInput
+  color: ColorCreateOneWithoutTodoInput
   user: UserCreateOneWithoutTodoesInput!
   sharedWith: UserCreateManyWithoutSharedWithInput
 }
@@ -502,9 +512,24 @@ input ToDoCreateManyWithoutUserInput {
   connect: [ToDoWhereUniqueInput!]
 }
 
+input ToDoCreateOneWithoutColorInput {
+  create: ToDoCreateWithoutColorInput
+  connect: ToDoWhereUniqueInput
+}
+
 input ToDoCreateOneWithoutLabelInput {
   create: ToDoCreateWithoutLabelInput
   connect: ToDoWhereUniqueInput
+}
+
+input ToDoCreateWithoutColorInput {
+  id: ID
+  title: String
+  description: String
+  isDone: Boolean
+  label: LabelCreateOneWithoutTodoInput
+  user: UserCreateOneWithoutTodoesInput!
+  sharedWith: UserCreateManyWithoutSharedWithInput
 }
 
 input ToDoCreateWithoutLabelInput {
@@ -512,7 +537,7 @@ input ToDoCreateWithoutLabelInput {
   title: String
   description: String
   isDone: Boolean
-  color: ColorCreateOneInput
+  color: ColorCreateOneWithoutTodoInput
   user: UserCreateOneWithoutTodoesInput!
   sharedWith: UserCreateManyWithoutSharedWithInput
 }
@@ -523,7 +548,7 @@ input ToDoCreateWithoutSharedWithInput {
   description: String
   isDone: Boolean
   label: LabelCreateOneWithoutTodoInput
-  color: ColorCreateOneInput
+  color: ColorCreateOneWithoutTodoInput
   user: UserCreateOneWithoutTodoesInput!
 }
 
@@ -533,7 +558,7 @@ input ToDoCreateWithoutUserInput {
   description: String
   isDone: Boolean
   label: LabelCreateOneWithoutTodoInput
-  color: ColorCreateOneInput
+  color: ColorCreateOneWithoutTodoInput
   sharedWith: UserCreateManyWithoutSharedWithInput
 }
 
@@ -655,7 +680,7 @@ input ToDoUpdateInput {
   description: String
   isDone: Boolean
   label: LabelUpdateOneWithoutTodoInput
-  color: ColorUpdateOneInput
+  color: ColorUpdateOneWithoutTodoInput
   user: UserUpdateOneRequiredWithoutTodoesInput
   sharedWith: UserUpdateManyWithoutSharedWithInput
 }
@@ -701,6 +726,15 @@ input ToDoUpdateManyWithWhereNestedInput {
   data: ToDoUpdateManyDataInput!
 }
 
+input ToDoUpdateOneWithoutColorInput {
+  create: ToDoCreateWithoutColorInput
+  update: ToDoUpdateWithoutColorDataInput
+  upsert: ToDoUpsertWithoutColorInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ToDoWhereUniqueInput
+}
+
 input ToDoUpdateOneWithoutLabelInput {
   create: ToDoCreateWithoutLabelInput
   update: ToDoUpdateWithoutLabelDataInput
@@ -710,11 +744,20 @@ input ToDoUpdateOneWithoutLabelInput {
   connect: ToDoWhereUniqueInput
 }
 
+input ToDoUpdateWithoutColorDataInput {
+  title: String
+  description: String
+  isDone: Boolean
+  label: LabelUpdateOneWithoutTodoInput
+  user: UserUpdateOneRequiredWithoutTodoesInput
+  sharedWith: UserUpdateManyWithoutSharedWithInput
+}
+
 input ToDoUpdateWithoutLabelDataInput {
   title: String
   description: String
   isDone: Boolean
-  color: ColorUpdateOneInput
+  color: ColorUpdateOneWithoutTodoInput
   user: UserUpdateOneRequiredWithoutTodoesInput
   sharedWith: UserUpdateManyWithoutSharedWithInput
 }
@@ -724,7 +767,7 @@ input ToDoUpdateWithoutSharedWithDataInput {
   description: String
   isDone: Boolean
   label: LabelUpdateOneWithoutTodoInput
-  color: ColorUpdateOneInput
+  color: ColorUpdateOneWithoutTodoInput
   user: UserUpdateOneRequiredWithoutTodoesInput
 }
 
@@ -733,7 +776,7 @@ input ToDoUpdateWithoutUserDataInput {
   description: String
   isDone: Boolean
   label: LabelUpdateOneWithoutTodoInput
-  color: ColorUpdateOneInput
+  color: ColorUpdateOneWithoutTodoInput
   sharedWith: UserUpdateManyWithoutSharedWithInput
 }
 
@@ -745,6 +788,11 @@ input ToDoUpdateWithWhereUniqueWithoutSharedWithInput {
 input ToDoUpdateWithWhereUniqueWithoutUserInput {
   where: ToDoWhereUniqueInput!
   data: ToDoUpdateWithoutUserDataInput!
+}
+
+input ToDoUpsertWithoutColorInput {
+  update: ToDoUpdateWithoutColorDataInput!
+  create: ToDoCreateWithoutColorInput!
 }
 
 input ToDoUpsertWithoutLabelInput {

@@ -232,18 +232,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type ColorOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "colorCode_ASC"
-  | "colorCode_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
 export type ToDoOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -282,63 +270,22 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type ColorOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "colorCode_ASC"
+  | "colorCode_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type ColorWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
-}>;
-
-export interface ColorWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  colorCode?: String;
-  colorCode_not?: String;
-  colorCode_in?: String[] | String;
-  colorCode_not_in?: String[] | String;
-  colorCode_lt?: String;
-  colorCode_lte?: String;
-  colorCode_gt?: String;
-  colorCode_gte?: String;
-  colorCode_contains?: String;
-  colorCode_not_contains?: String;
-  colorCode_starts_with?: String;
-  colorCode_not_starts_with?: String;
-  colorCode_ends_with?: String;
-  colorCode_not_ends_with?: String;
-  AND?: ColorWhereInput[] | ColorWhereInput;
-  OR?: ColorWhereInput[] | ColorWhereInput;
-  NOT?: ColorWhereInput[] | ColorWhereInput;
-}
-
-export type LabelWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  name?: String;
 }>;
 
 export interface ToDoWhereInput {
@@ -520,6 +467,60 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
+export interface ColorWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  colorCode?: String;
+  colorCode_not?: String;
+  colorCode_in?: String[] | String;
+  colorCode_not_in?: String[] | String;
+  colorCode_lt?: String;
+  colorCode_lte?: String;
+  colorCode_gt?: String;
+  colorCode_gte?: String;
+  colorCode_contains?: String;
+  colorCode_not_contains?: String;
+  colorCode_starts_with?: String;
+  colorCode_not_starts_with?: String;
+  colorCode_ends_with?: String;
+  colorCode_not_ends_with?: String;
+  todo?: ToDoWhereInput;
+  AND?: ColorWhereInput[] | ColorWhereInput;
+  OR?: ColorWhereInput[] | ColorWhereInput;
+  NOT?: ColorWhereInput[] | ColorWhereInput;
+}
+
+export type LabelWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  name?: String;
+}>;
+
 export type ToDoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
@@ -533,85 +534,22 @@ export interface ColorCreateInput {
   id?: ID_Input;
   name?: String;
   colorCode?: String;
+  todo?: ToDoCreateOneWithoutColorInput;
 }
 
-export interface ColorUpdateInput {
-  name?: String;
-  colorCode?: String;
-}
-
-export interface ColorUpdateManyMutationInput {
-  name?: String;
-  colorCode?: String;
-}
-
-export interface LabelCreateInput {
-  id?: ID_Input;
-  name?: String;
-  todo?: ToDoCreateOneWithoutLabelInput;
-  user: UserCreateOneWithoutLabelsInput;
-}
-
-export interface ToDoCreateOneWithoutLabelInput {
-  create?: ToDoCreateWithoutLabelInput;
+export interface ToDoCreateOneWithoutColorInput {
+  create?: ToDoCreateWithoutColorInput;
   connect?: ToDoWhereUniqueInput;
 }
 
-export interface ToDoCreateWithoutLabelInput {
-  id?: ID_Input;
-  title?: String;
-  description?: String;
-  isDone?: Boolean;
-  color?: ColorCreateOneInput;
-  user: UserCreateOneWithoutTodoesInput;
-  sharedWith?: UserCreateManyWithoutSharedWithInput;
-}
-
-export interface ColorCreateOneInput {
-  create?: ColorCreateInput;
-  connect?: ColorWhereUniqueInput;
-}
-
-export interface UserCreateOneWithoutTodoesInput {
-  create?: UserCreateWithoutTodoesInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserCreateWithoutTodoesInput {
-  id?: ID_Input;
-  auth0id?: String;
-  email?: String;
-  name?: String;
-  labels?: LabelCreateManyWithoutUserInput;
-  sharedWith?: ToDoCreateManyWithoutSharedWithInput;
-}
-
-export interface LabelCreateManyWithoutUserInput {
-  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
-  connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
-}
-
-export interface LabelCreateWithoutUserInput {
-  id?: ID_Input;
-  name?: String;
-  todo?: ToDoCreateOneWithoutLabelInput;
-}
-
-export interface ToDoCreateManyWithoutSharedWithInput {
-  create?:
-    | ToDoCreateWithoutSharedWithInput[]
-    | ToDoCreateWithoutSharedWithInput;
-  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-}
-
-export interface ToDoCreateWithoutSharedWithInput {
+export interface ToDoCreateWithoutColorInput {
   id?: ID_Input;
   title?: String;
   description?: String;
   isDone?: Boolean;
   label?: LabelCreateOneWithoutTodoInput;
-  color?: ColorCreateOneInput;
   user: UserCreateOneWithoutTodoesInput;
+  sharedWith?: UserCreateManyWithoutSharedWithInput;
 }
 
 export interface LabelCreateOneWithoutTodoInput {
@@ -650,8 +588,19 @@ export interface ToDoCreateWithoutUserInput {
   description?: String;
   isDone?: Boolean;
   label?: LabelCreateOneWithoutTodoInput;
-  color?: ColorCreateOneInput;
+  color?: ColorCreateOneWithoutTodoInput;
   sharedWith?: UserCreateManyWithoutSharedWithInput;
+}
+
+export interface ColorCreateOneWithoutTodoInput {
+  create?: ColorCreateWithoutTodoInput;
+  connect?: ColorWhereUniqueInput;
+}
+
+export interface ColorCreateWithoutTodoInput {
+  id?: ID_Input;
+  name?: String;
+  colorCode?: String;
 }
 
 export interface UserCreateManyWithoutSharedWithInput {
@@ -670,173 +619,85 @@ export interface UserCreateWithoutSharedWithInput {
   labels?: LabelCreateManyWithoutUserInput;
 }
 
-export interface LabelUpdateInput {
-  name?: String;
-  todo?: ToDoUpdateOneWithoutLabelInput;
-  user?: UserUpdateOneRequiredWithoutLabelsInput;
+export interface LabelCreateManyWithoutUserInput {
+  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
+  connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
 }
 
-export interface ToDoUpdateOneWithoutLabelInput {
+export interface LabelCreateWithoutUserInput {
+  id?: ID_Input;
+  name?: String;
+  todo?: ToDoCreateOneWithoutLabelInput;
+}
+
+export interface ToDoCreateOneWithoutLabelInput {
   create?: ToDoCreateWithoutLabelInput;
-  update?: ToDoUpdateWithoutLabelDataInput;
-  upsert?: ToDoUpsertWithoutLabelInput;
+  connect?: ToDoWhereUniqueInput;
+}
+
+export interface ToDoCreateWithoutLabelInput {
+  id?: ID_Input;
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  color?: ColorCreateOneWithoutTodoInput;
+  user: UserCreateOneWithoutTodoesInput;
+  sharedWith?: UserCreateManyWithoutSharedWithInput;
+}
+
+export interface UserCreateOneWithoutTodoesInput {
+  create?: UserCreateWithoutTodoesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutTodoesInput {
+  id?: ID_Input;
+  auth0id?: String;
+  email?: String;
+  name?: String;
+  labels?: LabelCreateManyWithoutUserInput;
+  sharedWith?: ToDoCreateManyWithoutSharedWithInput;
+}
+
+export interface ToDoCreateManyWithoutSharedWithInput {
+  create?:
+    | ToDoCreateWithoutSharedWithInput[]
+    | ToDoCreateWithoutSharedWithInput;
+  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+}
+
+export interface ToDoCreateWithoutSharedWithInput {
+  id?: ID_Input;
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  label?: LabelCreateOneWithoutTodoInput;
+  color?: ColorCreateOneWithoutTodoInput;
+  user: UserCreateOneWithoutTodoesInput;
+}
+
+export interface ColorUpdateInput {
+  name?: String;
+  colorCode?: String;
+  todo?: ToDoUpdateOneWithoutColorInput;
+}
+
+export interface ToDoUpdateOneWithoutColorInput {
+  create?: ToDoCreateWithoutColorInput;
+  update?: ToDoUpdateWithoutColorDataInput;
+  upsert?: ToDoUpsertWithoutColorInput;
   delete?: Boolean;
   disconnect?: Boolean;
   connect?: ToDoWhereUniqueInput;
 }
 
-export interface ToDoUpdateWithoutLabelDataInput {
-  title?: String;
-  description?: String;
-  isDone?: Boolean;
-  color?: ColorUpdateOneInput;
-  user?: UserUpdateOneRequiredWithoutTodoesInput;
-  sharedWith?: UserUpdateManyWithoutSharedWithInput;
-}
-
-export interface ColorUpdateOneInput {
-  create?: ColorCreateInput;
-  update?: ColorUpdateDataInput;
-  upsert?: ColorUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: ColorWhereUniqueInput;
-}
-
-export interface ColorUpdateDataInput {
-  name?: String;
-  colorCode?: String;
-}
-
-export interface ColorUpsertNestedInput {
-  update: ColorUpdateDataInput;
-  create: ColorCreateInput;
-}
-
-export interface UserUpdateOneRequiredWithoutTodoesInput {
-  create?: UserCreateWithoutTodoesInput;
-  update?: UserUpdateWithoutTodoesDataInput;
-  upsert?: UserUpsertWithoutTodoesInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserUpdateWithoutTodoesDataInput {
-  auth0id?: String;
-  email?: String;
-  name?: String;
-  labels?: LabelUpdateManyWithoutUserInput;
-  sharedWith?: ToDoUpdateManyWithoutSharedWithInput;
-}
-
-export interface LabelUpdateManyWithoutUserInput {
-  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
-  delete?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
-  connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
-  set?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
-  disconnect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
-  update?:
-    | LabelUpdateWithWhereUniqueWithoutUserInput[]
-    | LabelUpdateWithWhereUniqueWithoutUserInput;
-  upsert?:
-    | LabelUpsertWithWhereUniqueWithoutUserInput[]
-    | LabelUpsertWithWhereUniqueWithoutUserInput;
-  deleteMany?: LabelScalarWhereInput[] | LabelScalarWhereInput;
-  updateMany?:
-    | LabelUpdateManyWithWhereNestedInput[]
-    | LabelUpdateManyWithWhereNestedInput;
-}
-
-export interface LabelUpdateWithWhereUniqueWithoutUserInput {
-  where: LabelWhereUniqueInput;
-  data: LabelUpdateWithoutUserDataInput;
-}
-
-export interface LabelUpdateWithoutUserDataInput {
-  name?: String;
-  todo?: ToDoUpdateOneWithoutLabelInput;
-}
-
-export interface LabelUpsertWithWhereUniqueWithoutUserInput {
-  where: LabelWhereUniqueInput;
-  update: LabelUpdateWithoutUserDataInput;
-  create: LabelCreateWithoutUserInput;
-}
-
-export interface LabelScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  AND?: LabelScalarWhereInput[] | LabelScalarWhereInput;
-  OR?: LabelScalarWhereInput[] | LabelScalarWhereInput;
-  NOT?: LabelScalarWhereInput[] | LabelScalarWhereInput;
-}
-
-export interface LabelUpdateManyWithWhereNestedInput {
-  where: LabelScalarWhereInput;
-  data: LabelUpdateManyDataInput;
-}
-
-export interface LabelUpdateManyDataInput {
-  name?: String;
-}
-
-export interface ToDoUpdateManyWithoutSharedWithInput {
-  create?:
-    | ToDoCreateWithoutSharedWithInput[]
-    | ToDoCreateWithoutSharedWithInput;
-  delete?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-  set?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-  disconnect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
-  update?:
-    | ToDoUpdateWithWhereUniqueWithoutSharedWithInput[]
-    | ToDoUpdateWithWhereUniqueWithoutSharedWithInput;
-  upsert?:
-    | ToDoUpsertWithWhereUniqueWithoutSharedWithInput[]
-    | ToDoUpsertWithWhereUniqueWithoutSharedWithInput;
-  deleteMany?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
-  updateMany?:
-    | ToDoUpdateManyWithWhereNestedInput[]
-    | ToDoUpdateManyWithWhereNestedInput;
-}
-
-export interface ToDoUpdateWithWhereUniqueWithoutSharedWithInput {
-  where: ToDoWhereUniqueInput;
-  data: ToDoUpdateWithoutSharedWithDataInput;
-}
-
-export interface ToDoUpdateWithoutSharedWithDataInput {
+export interface ToDoUpdateWithoutColorDataInput {
   title?: String;
   description?: String;
   isDone?: Boolean;
   label?: LabelUpdateOneWithoutTodoInput;
-  color?: ColorUpdateOneInput;
   user?: UserUpdateOneRequiredWithoutTodoesInput;
+  sharedWith?: UserUpdateManyWithoutSharedWithInput;
 }
 
 export interface LabelUpdateOneWithoutTodoInput {
@@ -896,8 +757,27 @@ export interface ToDoUpdateWithoutUserDataInput {
   description?: String;
   isDone?: Boolean;
   label?: LabelUpdateOneWithoutTodoInput;
-  color?: ColorUpdateOneInput;
+  color?: ColorUpdateOneWithoutTodoInput;
   sharedWith?: UserUpdateManyWithoutSharedWithInput;
+}
+
+export interface ColorUpdateOneWithoutTodoInput {
+  create?: ColorCreateWithoutTodoInput;
+  update?: ColorUpdateWithoutTodoDataInput;
+  upsert?: ColorUpsertWithoutTodoInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: ColorWhereUniqueInput;
+}
+
+export interface ColorUpdateWithoutTodoDataInput {
+  name?: String;
+  colorCode?: String;
+}
+
+export interface ColorUpsertWithoutTodoInput {
+  update: ColorUpdateWithoutTodoDataInput;
+  create: ColorCreateWithoutTodoInput;
 }
 
 export interface UserUpdateManyWithoutSharedWithInput {
@@ -931,6 +811,243 @@ export interface UserUpdateWithoutSharedWithDataInput {
   name?: String;
   todoes?: ToDoUpdateManyWithoutUserInput;
   labels?: LabelUpdateManyWithoutUserInput;
+}
+
+export interface LabelUpdateManyWithoutUserInput {
+  create?: LabelCreateWithoutUserInput[] | LabelCreateWithoutUserInput;
+  delete?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
+  connect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
+  set?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
+  disconnect?: LabelWhereUniqueInput[] | LabelWhereUniqueInput;
+  update?:
+    | LabelUpdateWithWhereUniqueWithoutUserInput[]
+    | LabelUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | LabelUpsertWithWhereUniqueWithoutUserInput[]
+    | LabelUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: LabelScalarWhereInput[] | LabelScalarWhereInput;
+  updateMany?:
+    | LabelUpdateManyWithWhereNestedInput[]
+    | LabelUpdateManyWithWhereNestedInput;
+}
+
+export interface LabelUpdateWithWhereUniqueWithoutUserInput {
+  where: LabelWhereUniqueInput;
+  data: LabelUpdateWithoutUserDataInput;
+}
+
+export interface LabelUpdateWithoutUserDataInput {
+  name?: String;
+  todo?: ToDoUpdateOneWithoutLabelInput;
+}
+
+export interface ToDoUpdateOneWithoutLabelInput {
+  create?: ToDoCreateWithoutLabelInput;
+  update?: ToDoUpdateWithoutLabelDataInput;
+  upsert?: ToDoUpsertWithoutLabelInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: ToDoWhereUniqueInput;
+}
+
+export interface ToDoUpdateWithoutLabelDataInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  color?: ColorUpdateOneWithoutTodoInput;
+  user?: UserUpdateOneRequiredWithoutTodoesInput;
+  sharedWith?: UserUpdateManyWithoutSharedWithInput;
+}
+
+export interface UserUpdateOneRequiredWithoutTodoesInput {
+  create?: UserCreateWithoutTodoesInput;
+  update?: UserUpdateWithoutTodoesDataInput;
+  upsert?: UserUpsertWithoutTodoesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutTodoesDataInput {
+  auth0id?: String;
+  email?: String;
+  name?: String;
+  labels?: LabelUpdateManyWithoutUserInput;
+  sharedWith?: ToDoUpdateManyWithoutSharedWithInput;
+}
+
+export interface ToDoUpdateManyWithoutSharedWithInput {
+  create?:
+    | ToDoCreateWithoutSharedWithInput[]
+    | ToDoCreateWithoutSharedWithInput;
+  delete?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+  connect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+  set?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+  disconnect?: ToDoWhereUniqueInput[] | ToDoWhereUniqueInput;
+  update?:
+    | ToDoUpdateWithWhereUniqueWithoutSharedWithInput[]
+    | ToDoUpdateWithWhereUniqueWithoutSharedWithInput;
+  upsert?:
+    | ToDoUpsertWithWhereUniqueWithoutSharedWithInput[]
+    | ToDoUpsertWithWhereUniqueWithoutSharedWithInput;
+  deleteMany?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
+  updateMany?:
+    | ToDoUpdateManyWithWhereNestedInput[]
+    | ToDoUpdateManyWithWhereNestedInput;
+}
+
+export interface ToDoUpdateWithWhereUniqueWithoutSharedWithInput {
+  where: ToDoWhereUniqueInput;
+  data: ToDoUpdateWithoutSharedWithDataInput;
+}
+
+export interface ToDoUpdateWithoutSharedWithDataInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+  label?: LabelUpdateOneWithoutTodoInput;
+  color?: ColorUpdateOneWithoutTodoInput;
+  user?: UserUpdateOneRequiredWithoutTodoesInput;
+}
+
+export interface ToDoUpsertWithWhereUniqueWithoutSharedWithInput {
+  where: ToDoWhereUniqueInput;
+  update: ToDoUpdateWithoutSharedWithDataInput;
+  create: ToDoCreateWithoutSharedWithInput;
+}
+
+export interface ToDoScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  isDone?: Boolean;
+  isDone_not?: Boolean;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
+  OR?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
+  NOT?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
+}
+
+export interface ToDoUpdateManyWithWhereNestedInput {
+  where: ToDoScalarWhereInput;
+  data: ToDoUpdateManyDataInput;
+}
+
+export interface ToDoUpdateManyDataInput {
+  title?: String;
+  description?: String;
+  isDone?: Boolean;
+}
+
+export interface UserUpsertWithoutTodoesInput {
+  update: UserUpdateWithoutTodoesDataInput;
+  create: UserCreateWithoutTodoesInput;
+}
+
+export interface ToDoUpsertWithoutLabelInput {
+  update: ToDoUpdateWithoutLabelDataInput;
+  create: ToDoCreateWithoutLabelInput;
+}
+
+export interface LabelUpsertWithWhereUniqueWithoutUserInput {
+  where: LabelWhereUniqueInput;
+  update: LabelUpdateWithoutUserDataInput;
+  create: LabelCreateWithoutUserInput;
+}
+
+export interface LabelScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: LabelScalarWhereInput[] | LabelScalarWhereInput;
+  OR?: LabelScalarWhereInput[] | LabelScalarWhereInput;
+  NOT?: LabelScalarWhereInput[] | LabelScalarWhereInput;
+}
+
+export interface LabelUpdateManyWithWhereNestedInput {
+  where: LabelScalarWhereInput;
+  data: LabelUpdateManyDataInput;
+}
+
+export interface LabelUpdateManyDataInput {
+  name?: String;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutSharedWithInput {
@@ -1018,83 +1135,6 @@ export interface ToDoUpsertWithWhereUniqueWithoutUserInput {
   create: ToDoCreateWithoutUserInput;
 }
 
-export interface ToDoScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  isDone?: Boolean;
-  isDone_not?: Boolean;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
-  OR?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
-  NOT?: ToDoScalarWhereInput[] | ToDoScalarWhereInput;
-}
-
-export interface ToDoUpdateManyWithWhereNestedInput {
-  where: ToDoScalarWhereInput;
-  data: ToDoUpdateManyDataInput;
-}
-
-export interface ToDoUpdateManyDataInput {
-  title?: String;
-  description?: String;
-  isDone?: Boolean;
-}
-
 export interface UserUpsertWithoutLabelsInput {
   update: UserUpdateWithoutLabelsDataInput;
   create: UserCreateWithoutLabelsInput;
@@ -1105,20 +1145,27 @@ export interface LabelUpsertWithoutTodoInput {
   create: LabelCreateWithoutTodoInput;
 }
 
-export interface ToDoUpsertWithWhereUniqueWithoutSharedWithInput {
-  where: ToDoWhereUniqueInput;
-  update: ToDoUpdateWithoutSharedWithDataInput;
-  create: ToDoCreateWithoutSharedWithInput;
+export interface ToDoUpsertWithoutColorInput {
+  update: ToDoUpdateWithoutColorDataInput;
+  create: ToDoCreateWithoutColorInput;
 }
 
-export interface UserUpsertWithoutTodoesInput {
-  update: UserUpdateWithoutTodoesDataInput;
-  create: UserCreateWithoutTodoesInput;
+export interface ColorUpdateManyMutationInput {
+  name?: String;
+  colorCode?: String;
 }
 
-export interface ToDoUpsertWithoutLabelInput {
-  update: ToDoUpdateWithoutLabelDataInput;
-  create: ToDoCreateWithoutLabelInput;
+export interface LabelCreateInput {
+  id?: ID_Input;
+  name?: String;
+  todo?: ToDoCreateOneWithoutLabelInput;
+  user: UserCreateOneWithoutLabelsInput;
+}
+
+export interface LabelUpdateInput {
+  name?: String;
+  todo?: ToDoUpdateOneWithoutLabelInput;
+  user?: UserUpdateOneRequiredWithoutLabelsInput;
 }
 
 export interface LabelUpdateManyMutationInput {
@@ -1131,7 +1178,7 @@ export interface ToDoCreateInput {
   description?: String;
   isDone?: Boolean;
   label?: LabelCreateOneWithoutTodoInput;
-  color?: ColorCreateOneInput;
+  color?: ColorCreateOneWithoutTodoInput;
   user: UserCreateOneWithoutTodoesInput;
   sharedWith?: UserCreateManyWithoutSharedWithInput;
 }
@@ -1141,7 +1188,7 @@ export interface ToDoUpdateInput {
   description?: String;
   isDone?: Boolean;
   label?: LabelUpdateOneWithoutTodoInput;
-  color?: ColorUpdateOneInput;
+  color?: ColorUpdateOneWithoutTodoInput;
   user?: UserUpdateOneRequiredWithoutTodoesInput;
   sharedWith?: UserUpdateManyWithoutSharedWithInput;
 }
@@ -1235,6 +1282,7 @@ export interface ColorPromise extends Promise<Color>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   colorCode: () => Promise<String>;
+  todo: <T = ToDoPromise>() => T;
 }
 
 export interface ColorSubscription
@@ -1243,104 +1291,7 @@ export interface ColorSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   colorCode: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ColorConnection {
-  pageInfo: PageInfo;
-  edges: ColorEdge[];
-}
-
-export interface ColorConnectionPromise
-  extends Promise<ColorConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ColorEdge>>() => T;
-  aggregate: <T = AggregateColorPromise>() => T;
-}
-
-export interface ColorConnectionSubscription
-  extends Promise<AsyncIterator<ColorConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ColorEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateColorSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ColorEdge {
-  node: Color;
-  cursor: String;
-}
-
-export interface ColorEdgePromise extends Promise<ColorEdge>, Fragmentable {
-  node: <T = ColorPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ColorEdgeSubscription
-  extends Promise<AsyncIterator<ColorEdge>>,
-    Fragmentable {
-  node: <T = ColorSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateColor {
-  count: Int;
-}
-
-export interface AggregateColorPromise
-  extends Promise<AggregateColor>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateColorSubscription
-  extends Promise<AsyncIterator<AggregateColor>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Label {
-  id: ID_Output;
-  name?: String;
-}
-
-export interface LabelPromise extends Promise<Label>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  todo: <T = ToDoPromise>() => T;
-  user: <T = UserPromise>() => T;
-}
-
-export interface LabelSubscription
-  extends Promise<AsyncIterator<Label>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
   todo: <T = ToDoSubscription>() => T;
-  user: <T = UserSubscription>() => T;
 }
 
 export interface ToDo {
@@ -1398,6 +1349,27 @@ export interface ToDoSubscription
   ) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface Label {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface LabelPromise extends Promise<Label>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  todo: <T = ToDoPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface LabelSubscription
+  extends Promise<AsyncIterator<Label>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  todo: <T = ToDoSubscription>() => T;
+  user: <T = UserSubscription>() => T;
 }
 
 export interface User {
@@ -1487,6 +1459,83 @@ export interface UserSubscription
       last?: Int;
     }
   ) => T;
+}
+
+export interface ColorConnection {
+  pageInfo: PageInfo;
+  edges: ColorEdge[];
+}
+
+export interface ColorConnectionPromise
+  extends Promise<ColorConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ColorEdge>>() => T;
+  aggregate: <T = AggregateColorPromise>() => T;
+}
+
+export interface ColorConnectionSubscription
+  extends Promise<AsyncIterator<ColorConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ColorEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateColorSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ColorEdge {
+  node: Color;
+  cursor: String;
+}
+
+export interface ColorEdgePromise extends Promise<ColorEdge>, Fragmentable {
+  node: <T = ColorPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ColorEdgeSubscription
+  extends Promise<AsyncIterator<ColorEdge>>,
+    Fragmentable {
+  node: <T = ColorSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateColor {
+  count: Int;
+}
+
+export interface AggregateColorPromise
+  extends Promise<AggregateColor>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateColorSubscription
+  extends Promise<AsyncIterator<AggregateColor>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface LabelConnection {
@@ -1876,11 +1925,6 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
-/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
@@ -1894,6 +1938,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
 export type Long = string;
 
