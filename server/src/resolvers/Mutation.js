@@ -18,14 +18,16 @@ const Mutation = {
       const checkUser = await prisma.user({ auth0id: sub });
 
       if (!checkUser) {
-        const newUser = await prisma.createUser({
-          auth0id: sub
+        return await prisma.createUser({
+          auth0id: sub,
+          email: ctx.user.email,
+          name: ctx.user.name
         });
       }
 
-      return true;
+      return checkUser;
     }
-    return false;
+    return null;
   },
 
   /*********************************************************************
@@ -45,7 +47,7 @@ const Mutation = {
     const sub = ctx.user.sub;
     const user = await prisma.user({ auth0id: sub });
 
-    const todo = await prisma.createToDo({
+    let todo = await prisma.createToDo({
       ...args,
       user: {
         connect: {
@@ -54,6 +56,8 @@ const Mutation = {
       }
     });
 
+    todo.user = user;
+    todo.sharedWith = [];
     return todo;
   },
 
@@ -134,6 +138,41 @@ const Mutation = {
     }
 
     return await prisma.deleteToDo({ id });
+  },
+
+  /**
+   * Share todo to other user
+   * @param {*} _
+   * @param {*} param1
+   * @param {*} ctx
+   */
+  async shareToDo(_, { todoId, userId }, ctx) {
+    if (!ctx.user) {
+      throw new Error('You must be logged in to do that!');
+    }
+
+    if (!userId) {
+      throw new Error('Cannot found this user.');
+    }
+
+    // run the update method
+    let todo =  await prisma.updateToDo({
+      data: {
+        sharedWith: {
+          connect: [
+            {
+              id: userId
+            }
+          ]
+        }
+      },
+      where: {
+        id: todoId
+      }
+    });
+    todo.sharedWith = await prisma.toDo({ id: todoId }).sharedWith();
+
+    return todo;
   },
 
   /*********************************************************************

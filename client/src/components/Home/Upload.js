@@ -24,16 +24,33 @@ class Upload extends Component {
     });
   }
 
+  clearState() {
+    this.setState({
+      inputTitle: ''
+    });
+    this.setState({
+      inputDescription: ''
+    });
+  }
+
   render() {
     return (
       <Mutation
         mutation={ADD_TODO}
         update={(cache, { data: { createToDo } }) => {
-          const { readAllToDoes } = cache.readQuery({ query: GET_ALL_TODOES });
-          cache.writeQuery({
-            query: GET_ALL_TODOES,
-            data: { readAllToDoes: readAllToDoes.reverse().concat([createToDo]).reverse() }
-          });
+          const queries = cache.readQuery({ query: GET_ALL_TODOES });
+          if (queries.readAllToDoes) {
+            const readAllToDoes = queries.readAllToDoes;
+            cache.writeQuery({
+              query: GET_ALL_TODOES,
+              data: {
+                readAllToDoes: readAllToDoes
+                  .reverse()
+                  .concat([createToDo])
+                  .reverse()
+              }
+            });
+          }
         }}
       >
         {createToDo => (
@@ -46,11 +63,13 @@ class Upload extends Component {
                   description: this.state.inputDescription
                 }
               });
+              this.clearState();
             }}
           >
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Add a ToDo</label>
               <input
+                required
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"

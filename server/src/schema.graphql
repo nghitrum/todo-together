@@ -5,16 +5,20 @@ type Query {
 
   # todos
   readAllToDoes: [ToDo!]!
+  readAllToDoesSharedWithMe: [ToDo!]!
   readToDo(id: ID!): ToDo
 
   # labels
   readAllLabels: [Label!]!
   readLabel(id: ID!): Label
+
+  # users
+  readAllUsersExceptMe: [User!]!
 }
 
 type Mutation {
   hi: String
-  authenticate(idToken: String!): Boolean
+  authenticate(idToken: String!): User
   
   # todos
   createToDo(title: String!, description: String): ToDo
@@ -24,6 +28,8 @@ type Mutation {
   updateToDoUnDone(id: ID!): ToDo
 
   deleteToDo(id: ID!): ToDo
+
+  shareToDo(todoId: ID!, userId: ID!): ToDo
 
   # labels
   createLabel(name: String): Label

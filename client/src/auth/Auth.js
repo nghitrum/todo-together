@@ -67,7 +67,7 @@ export default class Auth {
     if (!localStorage.getItem('auth0-name')) {
       localStorage.setItem('auth0-name', this.payload.name);
     }
-    console.log(authResult);
+    
     history.replace('/home');
   }
 

@@ -6,7 +6,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
-import gql from 'graphql-tag';
+import { AUTHENTICATE } from './GQL/Mutation';
 
 class App extends Component {
   render() {
@@ -15,7 +15,6 @@ class App extends Component {
       credentials: 'same-origin'
     });
     const idToken = this.props.auth.getIdToken();
-    console.log(idToken);
     const authLink = setContext((_, { headers }) => {
       return {
         headers: {
@@ -30,19 +29,10 @@ class App extends Component {
       cache: new InMemoryCache()
     });
 
-    const AUTHENTICATE = gql`
-      mutation authenticate($idToken: String!) {
-        authenticate(idToken: $idToken)
-      }
-    `;
-
     client
       .mutate({
         variables: { idToken },
         mutation: AUTHENTICATE
-      })
-      .then(res => {
-        console.log(res);
       })
       .catch(err => console.log('Sign in or create account error: ', err));
 

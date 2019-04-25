@@ -1,5 +1,15 @@
 import gql from 'graphql-tag';
 
+const AUTHENTICATE = gql`
+  mutation authenticate($idToken: String!) {
+    authenticate(idToken: $idToken) {
+      id
+      email
+      name
+    }
+  }
+`;
+
 const ADD_TODO = gql`
   mutation addToDo($title: String!, $description: String) {
     createToDo(title: $title, description: $description) {
@@ -14,6 +24,14 @@ const ADD_TODO = gql`
       color {
         name
         colorCode
+      }
+      user {
+        id
+        email
+      }
+      sharedWith {
+        id
+        email
       }
     }
   }
@@ -43,4 +61,23 @@ const DELETE_TODO = gql`
   }
 `;
 
-export { ADD_TODO, MARK_AS_DONE, MARK_AS_UNDONE, DELETE_TODO };
+const SHARE_TODO = gql`
+  mutation shareToDo($todoId: ID!, $userId: ID!) {
+    shareToDo(todoId: $todoId, userId: $userId) {
+      id
+      sharedWith {
+        id
+        email
+      }
+    }
+  }
+`;
+
+export {
+  AUTHENTICATE,
+  ADD_TODO,
+  MARK_AS_DONE,
+  MARK_AS_UNDONE,
+  DELETE_TODO,
+  SHARE_TODO
+};

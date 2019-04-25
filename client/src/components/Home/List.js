@@ -1,148 +1,91 @@
 import React from 'react';
-import { Query, Mutation } from 'react-apollo';
-import { GET_ALL_TODOES } from '../GQL/Query';
-import { MARK_AS_DONE, MARK_AS_UNDONE, DELETE_TODO } from '../GQL/Mutation';
+import { Query } from 'react-apollo';
+import { GET_ALL_TODOES, GET_ALL_TODOES_SHARED_WITH_ME } from '../GQL/Query';
+import ToDo from './ToDo/ToDo';
 
 const List = () => (
-  <Query query={GET_ALL_TODOES}>
-    {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
-      if (error) return `Error! ${error.message}`;
-
-      return (
-        <div>
-          <div className="list-group">
-            {data.readAllToDoes.map(item => (
-              <div
-                key={item.id}
-                className="list-group-item list-group-item-action p-3 mb-3 rounded"
-              >
-                <div className="row">
-                  <div className="col">
-                    <a
-                      className="list-group-item-action"
-                      data-toggle="collapse"
-                      href={'#' + item.id}
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls={item.id}
-                    >
-                      {item.title}
-                    </a>
+  <div>
+    <nav>
+      <div className="nav nav-tabs" id="nav-tab" role="tablist">
+        <a
+          className="nav-item nav-link active"
+          id="nav-my-todoes-tab"
+          data-toggle="tab"
+          href="#nav-my-todoes"
+          role="tab"
+          aria-controls="nav-my-todoes"
+          aria-selected="true"
+        >
+          My ToDoes
+        </a>
+        <a
+          className="nav-item nav-link"
+          id="nav-shared-with-me-tab"
+          data-toggle="tab"
+          href="#nav-shared-with-me"
+          role="tab"
+          aria-controls="nav-shared-with-me"
+          aria-selected="false"
+        >
+          Shared With Me
+        </a>
+      </div>
+    </nav>
+    <div className="tab-content" id="nav-tabContent">
+      <div
+        className="tab-pane fade show active"
+        id="nav-my-todoes"
+        role="tabpanel"
+        aria-labelledby="nav-my-todoes-tab"
+      >
+        <Query query={GET_ALL_TODOES}>
+          {({ loading, error, data }) => {
+            if (loading) return 'Loading...';
+            if (error) return `Error! ${error.message}`;
+            return (
+              <div>
+                {data.readAllToDoes.length === 0 && <p>You have no ToDo now</p>}
+                {data.readAllToDoes && (
+                  <div className="list-group">
+                    {data.readAllToDoes.map(item => (
+                      <ToDo item={item} key={item.id} own={true} />
+                    ))}
                   </div>
-
-                  <div className="col">
-                    <Mutation
-                      mutation={DELETE_TODO}
-                      update={(cache, { data: { deleteToDo } }) => {
-                        const { readAllToDoes } = cache.readQuery({
-                          query: GET_ALL_TODOES
-                        });
-
-                        let objIndex = readAllToDoes.findIndex(
-                          obj => obj.id == deleteToDo.id
-                        );
-                        readAllToDoes.splice(objIndex, 1);
-
-                        cache.writeQuery({
-                          query: GET_ALL_TODOES,
-                          data: { readAllToDoes }
-                        });
-                      }}
-                    >
-                      {(updateToDoDone, { data }) => (
-                        <button
-                          type="button"
-                          className="btn btn-danger float-right ml-3"
-                          onClick={e => {
-                            e.preventDefault();
-                            updateToDoDone({ variables: { id: item.id } });
-                          }}
-                        >
-                          Delete Todo
-                        </button>
-                      )}
-                    </Mutation>
-
-                    {!item.isDone && (
-                      <Mutation
-                        mutation={MARK_AS_DONE}
-                        update={(cache, { data: { updateToDoDone } }) => {
-                          const { readAllToDoes } = cache.readQuery({
-                            query: GET_ALL_TODOES
-                          });
-
-                          let objIndex = readAllToDoes.findIndex(
-                            obj => obj.id == updateToDoDone.id
-                          );
-                          readAllToDoes[objIndex].isDone = true;
-
-                          cache.writeQuery({
-                            query: GET_ALL_TODOES,
-                            data: { readAllToDoes }
-                          });
-                        }}
-                      >
-                        {(updateToDoDone, { data }) => (
-                          <button
-                            type="button"
-                            className="btn btn-success float-right"
-                            onClick={e => {
-                              e.preventDefault();
-                              updateToDoDone({ variables: { id: item.id } });
-                            }}
-                          >
-                            Mark as done
-                          </button>
-                        )}
-                      </Mutation>
-                    )}
-                    {item.isDone && (
-                      <Mutation
-                        mutation={MARK_AS_UNDONE}
-                        update={(cache, { data: { updateToDoUnDone } }) => {
-                          const { readAllToDoes } = cache.readQuery({
-                            query: GET_ALL_TODOES
-                          });
-
-                          let objIndex = readAllToDoes.findIndex(
-                            obj => obj.id == updateToDoUnDone.id
-                          );
-                          readAllToDoes[objIndex].isDone = false;
-
-                          cache.writeQuery({
-                            query: GET_ALL_TODOES,
-                            data: { readAllToDoes }
-                          });
-                        }}
-                      >
-                        {(updateToDoDone, { data }) => (
-                          <button
-                            type="button"
-                            className="btn btn-warning float-right"
-                            onClick={e => {
-                              e.preventDefault();
-                              updateToDoDone({ variables: { id: item.id } });
-                            }}
-                          >
-                            Mark as undone
-                          </button>
-                        )}
-                      </Mutation>
-                    )}
-                  </div>
-                </div>
-
-                <div className="collapse mt-3" id={item.id}>
-                  <div className="card card-body">{item.description}</div>
-                </div>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-      );
-    }}
-  </Query>
+            );
+          }}
+        </Query>
+      </div>
+      <div
+        className="tab-pane fade"
+        id="nav-shared-with-me"
+        role="tabpanel"
+        aria-labelledby="nav-shared-with-me-tab"
+      >
+        <Query query={GET_ALL_TODOES_SHARED_WITH_ME}>
+          {({ loading, error, data }) => {
+            if (loading) return 'Loading...';
+            if (error) return `Error! ${error.message}`;
+            return (
+              <div>
+                {data.readAllToDoesSharedWithMe.length === 0 && (
+                  <p>You have no ToDo to collaborate</p>
+                )}
+                {data.readAllToDoesSharedWithMe && (
+                  <div className="list-group">
+                    {data.readAllToDoesSharedWithMe.map(item => (
+                      <ToDo item={item} key={item.id} own={false} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }}
+        </Query>
+      </div>
+    </div>
+  </div>
 );
 
 export default List;
