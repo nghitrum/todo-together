@@ -76,6 +76,6 @@ app.use(cookieParser());
 
 server.applyMiddleware({ app, path: '/' });
 
-app.listen({ port: 4000 }, () => {
-  console.log('Apollo Server on http://localhost:4000/');
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
 });
