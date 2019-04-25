@@ -46,6 +46,8 @@ const options = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   context: async ({req}) => {
     let user;
     if (req.headers.authorization) {
