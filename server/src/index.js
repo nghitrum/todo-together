@@ -14,7 +14,7 @@ const jwksClient = require('jwks-rsa');
 
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.CLIENT_URL,
   credentials: true
 };
 
@@ -38,7 +38,7 @@ function getKey(header, cb){
 }
 
 const options = {
-  aud: 'http://localhost:4000/',
+  aud: process.env.AUTH0_AUD,
   issuer: `https://nghitrum.eu.auth0.com/`,
   algorithms: ['RS256']
 };
