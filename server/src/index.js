@@ -68,7 +68,10 @@ const server = new ApolloServer({
       user
     }
   },
-  cors: cors(corsOptions)
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  }
 });
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
