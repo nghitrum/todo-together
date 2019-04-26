@@ -67,13 +67,12 @@ const server = new ApolloServer({
       db: prisma,
       user
     }
-  },
-  cors: cors(corsOptions)
+  }
 });
 
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 server.applyMiddleware({ app, path: '/' });
