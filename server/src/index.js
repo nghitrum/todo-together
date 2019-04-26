@@ -45,7 +45,6 @@ const options = {
 
 const server = new ApolloServer({
   typeDefs,
-  cors: cors(corsOptions),
   resolvers,
   introspection: true,
   playground: true,
@@ -68,15 +67,10 @@ const server = new ApolloServer({
       db: prisma,
       user
     }
-  }
+  },
+  cors: cors(corsOptions)
 });
 
-const app = express();
-
-app.use(cookieParser());
-
-server.applyMiddleware({ app });
-
-app.listen({ port: process.env.PORT || 4000 }, () => {
-  console.log('Apollo Server on http://localhost:4000/');
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
 });
