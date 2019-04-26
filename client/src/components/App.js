@@ -11,7 +11,7 @@ import { AUTHENTICATE } from './GQL/Mutation';
 class App extends Component {
   render() {
     const httpLink = createHttpLink({
-      uri: process.env.NODE_ENV === 'production' ? 'https://todo-together-server.herokuapp.com' : 'http://localhost:4000/',
+      uri: 'https://todo-together-server.herokuapp.com',
       credentials: 'include'
     });
     const idToken = this.props.auth.getIdToken();

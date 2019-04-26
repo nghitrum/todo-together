@@ -15,15 +15,8 @@ const Mutation = {
   async authenticate(parent, args, ctx) {
     if (ctx.user) {
       const email = ctx.user.email;
-      console.log('---............----');
-
       const checkUser = await prisma.user({ email });
-      console.log('---...sdasasd');
-
-      console.log(checkUser);
-
       if (!checkUser) {
-        console.log('--------------------------------');
         return await prisma.createUser({
           auth0id: sub,
           email: ctx.user.email,
