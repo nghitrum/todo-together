@@ -72,10 +72,9 @@ const server = new ApolloServer({
 
 const app = express();
 
-app.use(cors(corsOptions));
 app.use(cookieParser());
 
-server.applyMiddleware({ app, path: '/' });
+server.applyMiddleware({ app, cors: corsOptions });
 
 app.listen({ port: process.env.PORT || 4000 }, () => {
   console.log('Apollo Server on http://localhost:4000/');
