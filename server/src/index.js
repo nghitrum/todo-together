@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { prisma } = require('./generated/prisma-client');
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server');
 const { importSchema } = require('graphql-import');
 const path = require('path');
 const Query = require('./resolvers/Query');
