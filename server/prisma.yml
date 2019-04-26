@@ -1,7 +1,7 @@
 #endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://todo-together-fa8267a43c.herokuapp.com/todo-together/dev
 #endpoint: https://todo-together-fa8267a43c.herokuapp.com/todo-together/
 #endpoint: https://todo-together-fa8267a43c.herokuapp.com/todo-together/dev
-endpoint: https://todo-together-fa8267a43c.herokuapp.com/todo-together/dev
 datamodel: datamodel.prisma
 #secret: nghideptrainhatserver
 generate:

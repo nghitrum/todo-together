@@ -14,10 +14,16 @@ const Mutation = {
    */
   async authenticate(parent, args, ctx) {
     if (ctx.user) {
-      const sub = ctx.user.sub;
-      const checkUser = await prisma.user({ auth0id: sub });
+      const email = ctx.user.email;
+      console.log('---............----');
+
+      const checkUser = await prisma.user({ email });
+      console.log('---...sdasasd');
+
+      console.log(checkUser);
 
       if (!checkUser) {
+        console.log('--------------------------------');
         return await prisma.createUser({
           auth0id: sub,
           email: ctx.user.email,
@@ -174,71 +180,6 @@ const Mutation = {
 
     return todo;
   },
-
-  /*********************************************************************
-   * Regarding to label
-   */
-
-  async createLabel(_, args, ctx) {
-    if (!ctx.user) {
-      throw new Error('You must be logged in to do that!');
-    }
-    const sub = ctx.user.sub;
-    const user = await prisma.user({ auth0id: sub });
-
-    const checkLabel = await prisma.label({ name: args.name });
-    if (checkLabel) {
-      throw new Error('Duplicate label');
-    }
-
-    const label = await prisma.createLabel({
-      ...args,
-      user: {
-        connect: {
-          id: user.id
-        }
-      }
-    });
-
-    return label;
-  },
-
-  /**
-   * Update a Label
-   * @param {*} _
-   * @param {*} args
-   * @param {*} ctx
-   */
-  async updateLabel(_, args, ctx) {
-    if (!ctx.user) {
-      throw new Error('You must be logged in to do that!');
-    }
-
-    const updates = { ...args };
-    // remove the ID from the updates
-    delete updates.id;
-    // run the update method
-    return await prisma.updateLabel({
-      data: updates,
-      where: {
-        id: args.id
-      }
-    });
-  },
-
-  /**
-   * Delete A Label
-   * @param {*} _
-   * @param {*} param1
-   * @param {*} ctx
-   */
-  async deleteLabel(_, { id }, ctx) {
-    if (!ctx.user) {
-      throw new Error('You must be logged in to do that!');
-    }
-
-    return await prisma.deleteLabel({ id });
-  }
 };
 
 module.exports = Mutation;

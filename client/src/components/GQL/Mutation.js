@@ -17,14 +17,6 @@ const ADD_TODO = gql`
       title
       description
       isDone
-      label {
-        id
-        name
-      }
-      color {
-        name
-        colorCode
-      }
       user {
         id
         email

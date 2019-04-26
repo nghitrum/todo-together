@@ -7,14 +7,6 @@ const GET_ALL_TODOES = gql`
       title
       description
       isDone
-      label {
-        id
-        name
-      }
-      color {
-        name
-        colorCode
-      }
       user {
         id
         email

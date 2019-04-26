@@ -5,18 +5,9 @@ const { importSchema } = require('graphql-import');
 const path = require('path');
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const jwksClient = require('jwks-rsa');
-
-
-const corsOptions = {
-  origin: process.env.CLIENT_URL,
-  credentials: true
-};
 
 const resolvers = {
   Query,
@@ -69,7 +60,7 @@ const server = new ApolloServer({
     }
   },
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL :'http://localhost:3000',
     credentials: true
   }
 });

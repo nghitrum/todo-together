@@ -1,10 +1,9 @@
 type User {
   id: ID! @id @unique
   auth0id: String @unique
-  email: String
+  email: String @unique
   name: String
   todoes: [ToDo!]! @relation(name: "Owner")
-  labels: [Label!]!
   sharedWith: [ToDo!]! @relation(name: "SharedWith")
 }
 
@@ -13,24 +12,8 @@ type ToDo {
   title: String
   description: String
   isDone: Boolean! @default(value: false)
-  label: Label @relation(link: INLINE, name: "ToDoLabel")
-  color: Color @relation(link: INLINE, name: "ToDoColor")
   user: User! @relation(name: "Owner")
   sharedWith: [User!]! @relation(name: "SharedWith")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-}
-
-type Label {
-  id: ID! @id @unique
-  name: String @unique
-  todo: ToDo @relation(link: INLINE, name: "ToDoLabel")
-  user: User!
-}
-
-type Color {
-  id: ID! @id @unique
-  name: String
-  colorCode: String
-  todo: ToDo @relation(link: INLINE, name: "ToDoColor")
 }

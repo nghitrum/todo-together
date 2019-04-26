@@ -8,10 +8,6 @@ type Query {
   readAllToDoesSharedWithMe: [ToDo!]!
   readToDo(id: ID!): ToDo
 
-  # labels
-  readAllLabels: [Label!]!
-  readLabel(id: ID!): Label
-
   # users
   readAllUsersExceptMe: [User!]!
 }
@@ -30,9 +26,4 @@ type Mutation {
   deleteToDo(id: ID!): ToDo
 
   shareToDo(todoId: ID!, userId: ID!): ToDo
-
-  # labels
-  createLabel(name: String): Label
-  updateLabel(id: ID!, name: String): Label
-  deleteLabel(id: ID!): Label
 }

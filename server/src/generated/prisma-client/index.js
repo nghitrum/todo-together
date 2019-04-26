@@ -11,19 +11,11 @@ var models = [
   {
     name: "ToDo",
     embedded: false
-  },
-  {
-    name: "Label",
-    embedded: false
-  },
-  {
-    name: "Color",
-    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://todo-together-fa8267a43c.herokuapp.com/todo-together/dev`
+  endpoint: `${process.env["PRISMA_ENDPOINT"]}`
 });
 exports.prisma = new exports.Prisma();
