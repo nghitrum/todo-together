@@ -19,6 +19,8 @@ export default class Auth {
       responseType: 'token id_token'
     };
 
+    console.log(process.env.NODE_ENV);
+
     if (process.env.NODE_ENV === 'development') {
       this.config = {
         ...this.config,
