@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/js/dist/modal';
 
 import { makeMainRoutes } from './routes';
 require('dotenv').config()

@@ -22,7 +22,7 @@ class NavBar extends Component {
       <div className="sticky-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm rounded-bottom bg-dark text-light">
         <h5 className="my-0 mr-md-auto font-weight-normal">TODO Together</h5>
         {!this.props.auth.isAuthenticated() && (
-          <button className="btn btn-primary" onClick={this.login}>
+          <button className="btn btn-light" onClick={this.login}>
             Login
           </button>
         )}
