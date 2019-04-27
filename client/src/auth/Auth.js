@@ -13,23 +13,21 @@ export default class Auth {
     this.renewSession = this.renewSession.bind(this);
     this.getPayload = this.getPayload.bind(this);
 
-    this.config = {
-      domain: AUTH_CONFIG.domain,
-      clientID: AUTH_CONFIG.clientId,
-      responseType: 'token id_token'
-    };
-
-    console.log(process.env.NODE_ENV);
+    this.config = {};
 
     if (process.env.NODE_ENV === 'development') {
       this.config = {
-        ...this.config,
+        domain: AUTH_CONFIG.domain,
+        clientID: AUTH_CONFIG.clientId,
+        responseType: 'token id_token',
         redirectUri: process.env.REACT_APP_CLIENT_URL_CALLBACK,
         clientUrl: process.env.REACT_APP_CLIENT_URL
       };
     } else {
       this.config = {
-        ...this.config,
+        domain: AUTH_CONFIG.domain,
+        clientID: AUTH_CONFIG.clientId,
+        responseType: 'token id_token',
         redirectUri: AUTH_CONFIG.redirectUri,
         clientUrl: AUTH_CONFIG.clientUrl
       };
