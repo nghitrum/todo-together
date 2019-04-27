@@ -28,7 +28,7 @@ export default class Auth {
         domain: AUTH_CONFIG.domain,
         clientID: AUTH_CONFIG.clientId,
         responseType: 'token id_token',
-        redirectUri: AUTH_CONFIG.redirectUri,
+        redirectUri: AUTH_CONFIG.callbackUrl,
         clientUrl: AUTH_CONFIG.clientUrl
       };
     }
