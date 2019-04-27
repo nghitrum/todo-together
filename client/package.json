@@ -14,7 +14,6 @@
     "history": "^4.9.0",
     "react": "^16.8.4",
     "react-apollo": "^2.5.2",
-    "react-app-env": "^1.2.3",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
