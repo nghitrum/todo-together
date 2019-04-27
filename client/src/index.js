@@ -3,6 +3,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/tab';
 
 import { makeMainRoutes } from './routes';
 require('dotenv').config()
