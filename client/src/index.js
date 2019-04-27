@@ -3,6 +3,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 import { makeMainRoutes } from './routes';
+require('dotenv').config()
 
 const routes = makeMainRoutes();
 

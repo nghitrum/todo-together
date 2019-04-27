@@ -13,12 +13,26 @@ export default class Auth {
     this.renewSession = this.renewSession.bind(this);
     this.getPayload = this.getPayload.bind(this);
 
-    this.auth0 = new auth0.WebAuth({
+    this.config = {
       domain: AUTH_CONFIG.domain,
       clientID: AUTH_CONFIG.clientId,
-      redirectUri: AUTH_CONFIG.callbackUrl,
       responseType: 'token id_token'
-    });
+    };
+
+    if (process.env.NODE_ENV === 'development') {
+      this.config = {
+        ...this.config,
+        redirectUri: process.env.REACT_APP_CLIENT_URL_CALLBACK,
+        clientUrl: process.env.REACT_APP_CLIENT_URL
+      };
+    } else {
+      this.config = {
+        ...this.config,
+        redirectUri: AUTH_CONFIG.redirectUri,
+        clientUrl: AUTH_CONFIG.clientUrl
+      };
+    }
+    this.auth0 = new auth0.WebAuth(this.config);
 
     this.accessToken = '';
     this.idToken = '';
@@ -67,7 +81,7 @@ export default class Auth {
     if (!localStorage.getItem('auth0-name')) {
       localStorage.setItem('auth0-name', this.payload.name);
     }
-    
+
     history.replace('/home');
   }
 
@@ -96,8 +110,8 @@ export default class Auth {
     localStorage.removeItem('auth0-name');
 
     this.auth0.logout({
-      returnTo: AUTH_CONFIG.clientUrl,
-      client_id: AUTH_CONFIG.clientId
+      returnTo: this.config.clientUrl,
+      client_id: this.config.clientID
     });
   }
 
