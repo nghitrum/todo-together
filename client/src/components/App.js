@@ -38,10 +38,8 @@ class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <div className="container">
           <NavBar {...this.props} />
           <Main {...this.props} />
-        </div>
       </ApolloProvider>
     );
   }

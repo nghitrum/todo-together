@@ -38,7 +38,7 @@ class ToDo extends Component {
               data-toggle="modal"
               data-target={'#' + item.id}
             >
-              Share
+              <i className="fas fa-share-alt-square"></i>
             </button>
             <Share todo={item} />
           </ul>
@@ -71,7 +71,7 @@ class ToDo extends Component {
                       updateToDoDone({ variables: { id: item.id } });
                     }}
                   >
-                    Mark as done
+                    <i className="fas fa-check-square"></i>
                   </button>
                 )}
               </Mutation>
@@ -104,7 +104,7 @@ class ToDo extends Component {
                       updateToDoDone({ variables: { id: item.id } });
                     }}
                   >
-                    Mark as undone
+                    <i className="fas fa-undo"></i>
                   </button>
                 )}
               </Mutation>
@@ -136,7 +136,7 @@ class ToDo extends Component {
                     updateToDoDone({ variables: { id: item.id } });
                   }}
                 >
-                  Delete Todo
+                  <i className="fas fa-trash-alt"></i>
                 </button>
               )}
             </Mutation>
