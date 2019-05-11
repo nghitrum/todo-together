@@ -4,15 +4,24 @@ import { GET_ALL_USERS_EXCEPT_ME, GET_ALL_TODOES } from '../../GQL/Query';
 import { SHARE_TODO } from '../../GQL/Mutation';
 
 class Share extends Component {
+  constructor(props) {
+    super(props);
+    this.closeModal = React.createRef();
+  }
+  
+  handleOnClickUpdate = () => {
+    this.closeModal.current.click();
+  };
+
   render() {
     const { todo } = this.props;
     return (
       <div
         className="modal fade"
-        id={todo.id}
+        id={'share-' + todo.id}
         tabIndex="-1"
         role="dialog"
-        aria-labelledby={'#' + todo.id + 'Label'}
+        aria-labelledby={'#share-' + todo.id + 'Label'}
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
@@ -67,6 +76,7 @@ class Share extends Component {
                                       userId: user.id
                                     }
                                   });
+                                  this.handleOnClickUpdate();
                                 }}
                               >
                                 {user.email}
@@ -85,6 +95,7 @@ class Share extends Component {
                 type="button"
                 className="btn btn-secondary"
                 data-dismiss="modal"
+                ref={this.closeModal}
               >
                 Close
               </button>

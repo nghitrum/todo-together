@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Share from './Share';
+import Edit from './Edit';
 import { MARK_AS_DONE, MARK_AS_UNDONE, DELETE_TODO } from '../../GQL/Mutation';
 import { GET_ALL_TODOES } from '../../GQL/Query';
 import { Mutation } from 'react-apollo';
@@ -34,13 +35,22 @@ class ToDo extends Component {
           <ul className="nav d-inline-flex">
             <button
               type="button"
-              className="btn btn-info"
+              className="btn btn-info mr-1"
               data-toggle="modal"
-              data-target={'#' + item.id}
+              data-target={'#share-' + item.id}
             >
-              <i className="fas fa-share-alt-square"></i>
+              <i className="fas fa-share-alt-square" />
             </button>
             <Share todo={item} />
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-toggle="modal"
+              data-target={'#edit-' + item.id}
+            >
+              <i className="fas fa-edit" />
+            </button>
+            <Edit todo={item} />
           </ul>
           <ul className="nav d-inline-flex">
             {!item.isDone && (
@@ -71,7 +81,7 @@ class ToDo extends Component {
                       updateToDoDone({ variables: { id: item.id } });
                     }}
                   >
-                    <i className="fas fa-check-square"></i>
+                    <i className="fas fa-check-square" />
                   </button>
                 )}
               </Mutation>
@@ -104,7 +114,7 @@ class ToDo extends Component {
                       updateToDoDone({ variables: { id: item.id } });
                     }}
                   >
-                    <i className="fas fa-undo"></i>
+                    <i className="fas fa-undo" />
                   </button>
                 )}
               </Mutation>
@@ -136,7 +146,7 @@ class ToDo extends Component {
                     updateToDoDone({ variables: { id: item.id } });
                   }}
                 >
-                  <i className="fas fa-trash-alt"></i>
+                  <i className="fas fa-trash-alt" />
                 </button>
               )}
             </Mutation>

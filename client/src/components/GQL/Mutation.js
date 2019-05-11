@@ -29,6 +29,27 @@ const ADD_TODO = gql`
   }
 `;
 
+const UPDATE_TODO = gql`
+  mutation updateToDo(
+    $id: ID!
+    $title: String!
+    $description: String
+    $isDone: Boolean
+  ) {
+    updateToDo(
+      id: $id
+      title: $title
+      description: $description
+      isDone: $isDone
+    ) {
+      id
+      title
+      description
+      isDone
+    }
+  }
+`;
+
 const MARK_AS_DONE = gql`
   mutation markAsDone($id: ID!) {
     updateToDoDone(id: $id) {
@@ -68,6 +89,7 @@ const SHARE_TODO = gql`
 export {
   AUTHENTICATE,
   ADD_TODO,
+  UPDATE_TODO,
   MARK_AS_DONE,
   MARK_AS_UNDONE,
   DELETE_TODO,
